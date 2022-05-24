@@ -1,0 +1,203 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto animated fadeIn" *ngIf='!registrar'>
+                <div class="card card-profile">
+
+                    <div class="card-header  card-header-icon card-header-danger">
+                        <div class="card-icon">
+                            <h4>ESPECIALIDADES REGISTRADAS</h4>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group btn-group-sm col-md-6">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-success btn-round " (click)="modoRegistro(true)" title="CREAR NUEVA ESPECIALIDAD">
+                                    <span class="mat-button-wrapper">
+                                        <i class="material-icons">add_box</i> </span></button>
+                                <button type="button" class="btn btn-outline-secondary">{{findParam}}</button>
+                                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('NOMBRE');buscarFiltro(true)">NOMBRE</a>
+                                    <!-- <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('APELLIDO');buscarFiltro(true)">APELLIDO</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('IDENTIFICACION');buscarFiltro(true)">IDENTIFICACION</a> -->
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" style="left: 10px;" name="findCliente" (input)="findValue=findValue.toUpperCase()" (input)="buscarFiltro(true)" [(ngModel)]="findValue" placeholder="Buscar..." aria-label="Text input with segmented dropdown button">
+                            <button type="button" class="btn btn-primary btn btn-primary btn-round btn-fab mat-raised-button mat-button-base" (click)="buscarFiltro(false)"><i class="material-icons">search</i> </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary"></thead>
+                                <!-- <th colspan="5">
+                                   
+                                </th> -->
+                                <thead class="text-primary">
+                                    <th style="width: 50px;">
+                                        ID5
+                                    </th>
+
+                                    <th>
+                                        NOMBRE
+                                    </th>
+
+                                    <th>
+                                        ESTADO
+                                    </th>
+                                    <th>
+                                        ACCIÓN
+                                    </th>
+                                </thead>
+
+
+                                <tbody>
+                                    <!-- <tr >
+                                    <td colspan="6">
+                                        </td>
+                                    </tr> -->
+                                    <tr *ngFor="let especialidad of especialidades">
+
+                                        <td>
+                                            <img src="{{especialidad.parche}}" alt="..." style="width:40px;height:40px;">
+                                        </td>
+                                        <td>
+                                            {{especialidad.nombre}}
+                                        </td>
+
+                                        <td>
+                                            {{especialidad.estado}}
+                                        </td>
+
+
+                                        <td class="td-actions text-center">
+                                            <div class="btn-group" role="group" style="margin-bottom: 0px;margin-top: 0px;height: 25px;">
+                                                <button mat-raised-button="" type="button" (click)="mostrar(especialidad)" class="mat-raised-button mat-button-base btn btn-warning">
+                                                <span class="mat-button-wrapper"><i class="material-icons">edit</i></span>
+                                                <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                <div class="mat-button-focus-overlay"></div>
+                                                </button>
+                                                <button mat-raised-button="" type="button" (click)="selected(especialidad)" class="mat-raised-button mat-button-base btn btn-danger" data-toggle="modal" data-target="#ModalEliminar">
+                                                    <span class="mat-button-wrapper"><i class="material-icons">delete</i></span>
+                                                    <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                    <div class="mat-button-focus-overlay"></div>
+                                                 </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                                <div class="btn-group btn-group-sm" *ngIf="paginador">
+                                    <button mat-raised-button="" type="button" disabled="{{pagina === 0}}" (click)="listarsiguiente(false)" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i class="material-icons">keyboard_arrow_left</i></span>                                        
+                                    </button>
+                                    <button mat-raised-button="" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                       {{pagina+1}}                                    </button>
+                                    <button mat-raised-button="" disabled="{{especialidades!=undefined?especialidades.length < pagesize:false}}" (click)="listarsiguiente(true)" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i class="material-icons">keyboard_arrow_right</i></span>
+                                    </button>
+                                </div>
+                            </table>
+                            <div *ngIf="resultado" data-notify="container" class="alert alert-warning alert-with-icon animated fadeInRightBig">
+                                <i data-notify="icon" class="material-icons">notifications</i>
+
+                                <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                                <span data-notify="message">No se encontraron Resultados</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 ml-auto mr-auto animated fadeIn" *ngIf="registrar">
+                <div class="card">
+                    <form #Loginform="ngForm" (submit)="submit()">
+                        <div class="card-header card-header-danger">
+                            <h4 class="card-title">REGISTAR ESPECIALIDAD
+
+                            </h4>
+                        </div>
+
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [(ngModel)]="nombre" (input)="nombre=nombre.toUpperCase()" name="nombre" placeholder="Nombre de la especialidad" type="text" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="row ">
+                                <div class="col-sm-4">
+
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="{{url}}" alt="..." style="width:140px;height:140px;">
+                                    </div>
+                                    <input style="display: none" type="button" type="file" (change)="onFileSelected($event)" #fileInput>
+                                    <button *ngIf="url=='../assets/img/especialidad.png'?true:false" (click)="fileInput.click()" accept="image/*" type="button" class="btn btn-primary btn-round fileinput-exists"><i class="material-icons">add</i>Seleccionar</button>
+                                    <div class="btn-group btn-group-md" role="group">
+                                        <button type="button" (click)="fileInput.click()" *ngIf="url!='../assets/img/especialidad.png'?true:false" class="btn btn-warning btn-round btn-sm"><i class="material-icons">change_circle</i>Cambiar</button>
+                                        <button type="button" (click)="cancelFile()" *ngIf="url!='../assets/img/especialidad.png'?true:false" class="btn btn-danger btn-round btn-sm"><i class="material-icons">delete</i>Quitar</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 center-block">
+
+                                    <div class="fileinput-new thumbnail">
+                                        <img src="{{urlcertificado}}" alt="..." style="width:170px;height:140px;">
+                                    </div>
+                                    <input style="display: none" type="button" type="file" (change)="onFileSelectedCertificado($event)" #fileInputCertificado>
+                                    <button *ngIf="urlcertificado=='../assets/img/certificado.jpg'?true:false" (click)="fileInputCertificado.click()" accept="image/*" type="button" class="btn btn-primary btn-round fileinput-exists"><i class="material-icons">add</i>Seleccionar</button>
+                                    <div class="btn-group btn-group-md" role="group">
+                                        <button type="button" (click)="fileInputCertificado.click()" *ngIf="urlcertificado!='../assets/img/certificado.jpg'?true:false" class="btn btn-warning btn-round btn-sm"><i class="material-icons">change_circle</i>Cambiar</button>
+                                        <button type="button" (click)="cancelFileCertificado()" *ngIf="urlcertificado!='../assets/img/certificado.jpg'?true:false" class="btn btn-danger btn-round btn-sm"><i class="material-icons">delete</i>Quitar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                    <button mat-raised-button="" type="submit" class="btn btn-primary">
+                                      <i class="material-icons">save</i>GUARDAR
+                                     </button>
+                                    <button mat-raised-button="" type="button" class="btn btn-warning " (click)="limpiar()">
+                                        <i class="material-icons">refresh</i>Limpiar
+                                        </button>
+                                    <button mat-raised-button="" type="button" class="btn btn-danger " (click)="changeestado()">
+                                        <i class="material-icons">refresh</i>CAMBIAR ESTADO
+                                        </button>
+                                    <button mat-raised-button="" type="button" class="btn btn-success " (click)="modoRegistro(false)">
+                                     <i class="material-icons">search</i>CONSULTAR
+                                     </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR USUARIO</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar el Rol {{especialidad.nombre}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

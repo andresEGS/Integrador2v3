@@ -1,0 +1,27 @@
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+.modal-backdrop{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100 !important;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+}
+
+.centrador{
+  position: relative;
+  
+}
+
+.imagen{
+    width: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin:0 auto;
+}

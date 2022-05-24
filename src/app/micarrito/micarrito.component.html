@@ -1,0 +1,463 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <mat-progress-spinner class="example-margin" color="success" *ngIf='spinner'>
+        </mat-progress-spinner>
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto animated fadeIn">
+                <div class="card card-profile">
+
+                    <div class="card-header  card-header-icon card-header-danger">
+                        <div class="card-icon">
+                            <h4>CARRITO DE COMPRA</h4>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                       
+                        <mat-tab-group dynamicHeight [selectedIndex]="selectedIndex.value" (selectedIndexChange)="validarTab($event)">
+                            <mat-tab *ngIf='mostrarCarrito'>
+                                <ng-template mat-tab-label>
+                                    <mat-icon class="example-tab-icon">add_shopping_cart</mat-icon>
+                                    Mi Carrito
+                                </ng-template>
+                                <form #Loginform="ngForm" (submit)="submit()">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput [(ngModel)]="carrito.cliente.nombre"
+                                                        (input)="carrito.cliente.nombre.toUpperCase()" name="nombre"
+                                                        placeholder="Nombre" type="text" readonly>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width ">
+                                                    <input matInput [(ngModel)]="carrito.cliente.apellidos"
+                                                        (input)="carrito.cliente.apellidos.toUpperCase()"
+                                                        name="apellidos" placeholder="Apellidos" type="text" readonly>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-8">
+
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead class="text-primary">
+                                                            <th colspan="5">
+                                                                DETALLE DE LA COMPRA
+                                                            </th>
+                                                        </thead>
+
+                                                        <thead class="text-primary">
+
+                                                            <th colspan="2">
+                                                                PRODUCTO
+                                                            </th>
+                                                            <th>
+                                                                CANTIDAD
+                                                            </th>
+                                                            <th width="50px">
+                                                                UNIDAD
+                                                            </th>
+                                                            <th width="50px">
+                                                                VALOR
+                                                            </th>
+                                                            <th>
+                                                                ACCIÓN
+                                                            </th>
+                                                        </thead>
+
+
+                                                        <tbody>
+                                                            <tr *ngFor="let detalle of carrito.articulos">
+                                                                <td>
+                                                                    <img src="{{detalle.articulo.imagen}}" alt="..."
+                                                                        style="width:30px;height:30px;">
+                                                                </td>
+                                                                <td>
+                                                                    {{detalle.articulo.nombre}}
+                                                                    {{detalle.articulo.descripcion}}
+
+                                                                </td>
+                                                                <td>
+                                                                   
+                                                                    <div class="btn-group btn-group-sm" >
+                                                                        <button  (click)="restarCantidad(detalle)" type="button" class="btn btn-round  mat-raised-button mat-button-base">
+                                                                            <span class="mat-button-wrapper">-</span>
+                                                                        </button>
+                                                                        <input  type="number" style="width:70px;" min="0" readonly value="{{detalle.cantidad}}" class="btn btn-round mat-raised-button mat-button-base" />
+                                                                        <button  (click)="sumarCantidad(detalle)" type="button" class="btn btn-round  mat-raised-button mat-button-base">
+                                                                        <span class="mat-button-wrapper">+</span>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    ${{detalle.valor_uni}}
+                                                                </td>
+                                                                <td>
+                                                                    ${{detalle.valor_total}}
+                                                                </td>
+
+
+                                                                <td class="td-actions text-center">
+                                                                    <div class="btn-group" role="group"
+                                                                        style="margin-bottom: 0px;margin-top: 0px;height: 25px;">
+
+                                                                        <button mat-raised-button="" type="button"
+                                                                            (click)="eliminarDetalle1(detalle)"
+                                                                            class="mat-raised-button mat-button-base btn btn-danger"
+                                                                            >
+                                                                            <span class="mat-button-wrapper"><i
+                                                                                    class="material-icons">delete</i></span>
+                                                                            
+                                                                          
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+
+                                                    </table>
+                                                
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-4 center-block">
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                            <h1 style="color: darkgreen;">${{carrito.valor}}</h1> 
+                                                            <h3 style="color: darkgreen;">{{carrito.estado}}</h3>                                                             
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <mat-button-toggle-group readonly 
+                                                            name="dificultadPregunta" 
+                                                            aria-label="Font Style">
+                                                            <mat-button-toggle value="ACTIVO" label="ACTIVO" class="text-center" 
+                                                                [ngClass]="{'btn-success': carrito.estado=='ACTIVO'}">
+                                                                <img alt="" src="./assets/img/micarrito.png"
+                                                                    style="width:60px;height:60px;">
+                                                            </mat-button-toggle>
+                                                            <mat-button-toggle value="DESPACHO" *ngIf="carrito.estado=='DESPACHO'"
+                                                                [ngClass]="{'btn-warning': carrito.estado=='DESPACHO'}"  >
+                                                                <img alt="" src="./assets/img/articulo128.png"
+                                                                    style="width:60px;height:60px;">
+                                                            </mat-button-toggle>
+                                                            <mat-button-toggle value="DIFICIL"
+                                                                [ngClass]="{'btn-danger': carrito.estado=='DIFICIL'}">
+                                                                <img alt="" src="./assets/img/pedidos128.png"
+                                                                    style="width:60px;height:60px;">
+                                                            </mat-button-toggle>
+                                                            <mat-button-toggle value="DIFICIL"
+                                                            [ngClass]="{'btn-danger': carrito.estado=='DIFICIL'}">
+                                                            <img alt="" src="./assets/img/reparto.png"
+                                                                style="width:60px;height:60px;">
+                                                        </mat-button-toggle>
+                                                        <mat-button-toggle value="DIFICIL"
+                                                            [ngClass]="{'btn-danger': carrito.estado=='DIFICIL'}">
+                                                            <img alt="" src="./assets/img/finalizado.png"
+                                                                style="width:60px;height:60px;">
+                                                        </mat-button-toggle>
+                                                        </mat-button-toggle-group>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                                            <button mat-raised-button="" type="submit" class="btn btn-primary">
+                                                                ENVIAR COMPRA <i class="material-icons">send</i>
+                                                            </button>
+                                                            <button mat-raised-button="" type="button" class="btn btn-danger "
+                                                            (click)="selectedCArrito(carrito)"
+                                                            class="mat-raised-button mat-button-base btn btn-danger"
+                                                            data-toggle="modal" data-target="#ModalEliminar" >
+                                                                CACELAR CARRITO <i class="material-icons">delete</i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                      
+                                    </div>
+
+                                   
+                                </form>
+                            </mat-tab>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <mat-icon class="example-tab-icon">inbox</mat-icon>
+                                    Mis Pedidos
+                                </ng-template>
+                                <div class="example-large-box mat-elevation-z4">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class="text-primary"></thead>
+                                            <!-- <th colspan="5">
+                                           
+                                        </th> -->
+                                            <thead class="text-primary">
+
+                                                <th colspan="2">
+                                                    CLIENTE
+                                                </th>
+                                                <th>
+                                                    FECHA
+                                                </th>
+                                                <th>
+                                                    ACTUALIZACION
+                                                </th>
+                                                <th width="50px">
+                                                    PRODUCTOS
+                                                </th>
+
+                                                <th width="50px">
+                                                    VALOR
+                                                </th>
+                                                <th width="50px">
+                                                    ESTADO
+                                                </th>
+                                                <th>
+                                                    ACCIÓN
+                                                </th>
+                                            </thead>
+
+
+                                            <tbody>
+                                                <tr *ngFor="let car of carritos">
+                                                    <td>
+                                                        <img src="{{car.cliente.foto}}" alt="..." class="photo"
+                                                            style="width:30px;height:30px;">
+                                                    </td>
+                                                    <td>
+                                                        {{car.cliente.nombre}} {{car.cliente.apellidos}}
+
+                                                    </td>
+                                                    <td>
+                                                        {{car.fecha_create | date: 'yyyy-MM-dd HH:mm' }}
+                                                    </td>
+                                                    <td>
+                                                        {{car.fecha_update | date: 'yyyy-MM-dd HH:mm' }}
+                                                    </td>
+                                                    <td>
+                                                        {{car.articulos.length}}
+                                                    </td>
+                                                    <td>
+                                                        ${{car.valor}}
+                                                    </td>
+                                                    <td>                                                       
+                                                        <img src="./assets/img/{{getImagenEstado(car.estado)}}"  title="{{car.estado}}"  alt="..."   style="width:30px;height:30px;">
+                                                    </td>
+
+
+                                                    <td class="td-actions text-center">
+                                                        <div class="btn-group" role="group"
+                                                            style="margin-bottom: 0px;margin-top: 0px;height: 25px;">
+                                                            <button mat-raised-button="" type="button"
+                                                                (click)="selectedCArrito(car)"
+                                                                class="mat-raised-button mat-button-base btn btn-warning">
+                                                                <span class="mat-button-wrapper"><i
+                                                                        class="material-icons">edit</i></span>
+                                                                <div matripple="" class="mat-ripple mat-button-ripple">
+                                                                </div>
+                                                                <div class="mat-button-focus-overlay"></div>
+                                                            </button>
+                                                            <button mat-raised-button="" *ngIf="car.estado=='ACTIVO'" type="button" 
+                                                                (click)="selectedCArrito(car)"
+                                                                class="mat-raised-button mat-button-base btn btn-danger"
+                                                                data-toggle="modal" data-target="#ModalEliminar">
+                                                                <span class="mat-button-wrapper"><i
+                                                                        class="material-icons">delete</i></span>
+                                                                <div matripple="" class="mat-ripple mat-button-ripple">
+                                                                </div>
+                                                                <div class="mat-button-focus-overlay"></div>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                          
+                                        </table>
+                                        <div *ngIf="resultado" data-notify="container"
+                                            class="alert alert-warning alert-with-icon animated fadeInRightBig">
+                                            <i data-notify="icon" class="material-icons">notifications</i>
+
+                                            <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                                            <span data-notify="message">No se encontraron Resultados</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab *ngIf='mostrarCarritoSelect'>
+                                <ng-template mat-tab-label>
+                                    <mat-icon class="example-tab-icon">add_shopping_cart</mat-icon>
+                                    Pedido Selecionados
+                                </ng-template>
+                                <form #Loginform="ngForm" (submit)="submit()">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width">
+                                                    <input matInput [(ngModel)]="carritoSelect.cliente.nombre"
+                                                        (input)="carritoSelect.cliente.nombre.toUpperCase()" name="nombre"
+                                                        placeholder="Nombre" type="text" readonly>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <mat-form-field class="example-full-width ">
+                                                    <input matInput [(ngModel)]="carritoSelect.cliente.apellidos"
+                                                        (input)="carritoSelect.cliente.apellidos.toUpperCase()"
+                                                        name="apellidos" placeholder="Apellidos" type="text" readonly>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead class="text-primary">
+                                                            <th colspan="5">
+                                                                DETALLE DE LA COMPRA
+                                                            </th>
+                                                        </thead>
+
+                                                        <thead class="text-primary">
+
+                                                            <th colspan="2">
+                                                                PRODUCTO
+                                                            </th>
+                                                            <th width="50px">
+                                                                CANTIDAD
+                                                            </th>
+                                                            <th width="50px">
+                                                                UNIDAD
+                                                            </th>
+                                                            <th width="50px">
+                                                                VALOR
+                                                            </th>
+                                                            
+                                                        </thead>
+
+
+                                                        <tbody>
+                                                            <tr *ngFor="let detalle of carritoSelect.articulos">
+                                                                <td>
+                                                                    <img src="{{detalle.articulo.imagen}}" alt="..."
+                                                                        style="width:30px;height:30px;">
+                                                                </td>
+                                                                <td>
+                                                                    {{detalle.articulo.nombre}}
+                                                                    {{detalle.articulo.descripcion}}
+
+                                                                </td>
+                                                                <td>
+                                                                    {{detalle.cantidad}}
+                                                                   
+                                                                </td>
+                                                                <td>
+                                                                    ${{detalle.valor_uni}}
+                                                                </td>
+                                                                <td>
+                                                                    ${{detalle.valor_total}}
+                                                                </td>
+
+
+                                                            </tr>
+
+                                                        </tbody>
+
+                                                    </table>
+                                                    
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-6 center-block">
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                            <h1 style="color: darkgreen;">${{carritoSelect.valor}}</h1> 
+                                                            <h3 style="color: darkgreen;">{{carritoSelect.estado}}</h3>                                                             
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <mat-button-toggle-group readonly 
+                                                            name="dificultadPregunta" 
+                                                            aria-label="Font Style">
+                                                            <mat-button-toggle lass="text-center" 
+                                                                [ngClass]="{'btn-success': carritoSelect.estado=='ACTIVO'}">
+                                                                <img alt="" src="./assets/img/micarrito.png"
+                                                                    style="width:60px;height:60px;">
+                                                            </mat-button-toggle>
+                                                            <mat-button-toggle value="DESPACHO" 
+                                                                [ngClass]="{'btn-success': carritoSelect.estado=='DESPACHO'}"  >
+                                                                <img alt="" src="./assets/img/articulo128.png"
+                                                                    style="width:60px;height:60px;">
+                                                            </mat-button-toggle>
+                                                            <mat-button-toggle value="EMPAQUE"
+                                                                [ngClass]="{'btn-success': carritoSelect.estado=='EMPAQUE'}">
+                                                                <img alt="" src="./assets/img/pedidos128.png"
+                                                                    style="width:60px;height:60px;">
+                                                            </mat-button-toggle>
+                                                            <mat-button-toggle value="REPARTO"
+                                                            [ngClass]="{'btn-success': carritoSelect.estado=='REPARTO'}">
+                                                            <img alt="" src="./assets/img/reparto.png"
+                                                                style="width:60px;height:60px;">
+                                                        </mat-button-toggle>
+                                                        <mat-button-toggle value="REPARTO"
+                                                            [ngClass]="{'btn-success': carritoSelect.estado=='FINALIZADO'}">
+                                                            <img alt="" src="./assets/img/finalizado.png"
+                                                                style="width:60px;height:60px;">
+                                                        </mat-button-toggle>
+                                                        </mat-button-toggle-group>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                      
+                                    </div>
+
+                                   
+                                </form>
+                            </mat-tab>
+                        </mat-tab-group>
+
+                
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR RTICULO</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar el CArito de Compras  ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

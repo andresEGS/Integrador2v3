@@ -1,0 +1,153 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-6 ml-auto mr-auto animated fadeIn" *ngIf='!registrar'>
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">CONSULTAR ROLES
+                            <!-- <p class="card-category">Complete your profile</p> -->
+                            <button mat-raised-button="" class="btn btn-success " (click)="modoRegistro(true)">
+                            <span class="mat-button-wrapper">
+                                <i class="material-icons">add_box</i> CREAR NUEVO ROL </span>
+                                <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                <div class="mat-button-focus-overlay"></div>
+                            </button>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+
+                                            <th>
+                                                NOMBRE
+                                            </th>
+                                            <th>
+                                                ACCIONES
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let piez of roles">
+
+                                                <td>
+                                                    {{piez.nombre}}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                                        <button type="button" class="btn btn-sm btn-warning" (click)="mostrarRol(piez)"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" (click)="selectedRol(piez)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalEliminarRol">
+                                                              <i class="material-icons">delete</i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ml-auto mr-auto animated fadeIn" *ngIf="registrar">
+                <div class="card">
+                    <form #Loginform="ngForm" (submit)="submit()">
+                        <div class="card-header card-header-danger">
+                            <h4 class="card-title">REGISTAR ROLES</h4>
+
+                        </div>
+
+
+                        <div class="card-body">
+                            <div class="btn-group btn-group-sm col-md-12" role="group">
+                                <button mat-raised-button="" type="submit" class="btn btn-round btn-sm btn-primary"><i class="material-icons">save</i>GUARDAR</button>
+                                <button mat-raised-button="" class="btn btn-round btn-sm btn-success " (click)="modoRegistro(false)"> <i class="material-icons">search</i>CONSULTAR</button>
+                            </div>
+                            <p class="card-category">Ingrese los datos del rol</p>
+                            <div class="form-group">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="rol.nombre" name="nombre" placeholder="Nombre del Rol" type="text" required>
+                                </mat-form-field>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+                                            <th style="width: 30px;">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" (click)="selecionarTodosMenu()" [(ngModel)]="seleccionartodos" name="seleccionartodos" >
+                                                           <span class="form-check-sign">
+                                                                <span class="check"></span>
+                                                            </span>
+                                                    </label>
+                                                </div>
+                                            </th>
+                                            <th>
+
+                                                MENU DEL ROL
+                                            </th>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let menu of listaMenu">
+                                                <td>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="menu.check" name="menu{{menu.id}}" >
+                                                            <span class="form-check-sign">
+                                                                <span class="check"></span>
+                                                            </span>
+                                                        </label>
+
+                                                    </div>
+
+                                                </td>
+                                                <td>
+
+                                                    <a class="nav-link" href="javascript:void(0)">
+
+                                                        <i class="material-icons" *ngIf="menu.class!='imagen'">{{menu.icon}}</i>
+                                                        <i class="material-icons" *ngIf="menu.class==='imagen'">
+                                                             <img alt="" src="./assets/img/{{menu.icon}}">
+                                                         </i> {{menu.title}}
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEliminarRol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR Rol</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar el Rol {{rol.nombre}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto animated fadeIn" >
+                <div class="card card-profile">
+
+                    <div class="card-header  card-header-icon card-header-danger">
+                        <div class="card-icon">
+                            <h4>RESULTADOS DE USUARIOS</h4>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary"></thead>
+                                <!-- <th colspan="5">
+                                   
+                                </th> -->
+                                <thead class="text-primary">
+                                    <!-- <th style="width: 50px;">
+                                        ID5
+                                    </th> -->
+                                    <th style="width:10px">
+                                        POSICIÓN
+                                    </th>
+                                    <th style="width:20px">
+                                        RANGO
+                                    </th>
+                                    <th style="text-align:left;">
+                                        USUARIO
+                                    </th>
+                                   
+                                    <th>
+                                        PUNTOS
+                                    </th>
+                                 
+                                </thead>
+
+
+                                <tbody>
+                                    <!-- <tr >
+                                    <td colspan="6">
+                                        </td>
+                                    </tr> -->
+                                    <tr *ngFor="let user of usuarios ;index as i; first as isFirst" [ngClass]="{'card-header-success': usuario.id===user.id}">
+                                        <!-- <td style="width: 50px;">
+                                            {{usuario.id}}
+                                        </td> -->
+                                        <td >                                           
+                                            <h4>{{i+1}}</h4>
+                                        </td>
+                                        <td>                                             
+                                            <img *ngIf="user.categoria=='2elYXEvabz8XGZou1NFH'" matTooltip="PRINCIPIANTE"  src="./assets/img/rango1.png" alt="..." style="width:40px;height:40px;">
+                                            <img *ngIf="user.categoria=='rR9XF7cdLznrezAxAziQ'" matTooltip="APRENDIZ" src="./assets/img/rango2.png" alt="..." style="width:40px;height:40px;">
+                                            <img *ngIf="user.categoria=='sXaV1WvTrgo4PK6VSFST'" matTooltip="CONOCEDOR" src="./assets/img/rango3.png" alt="..." style="width:40px;height:40px;">
+                                            <img *ngIf="user.categoria=='pzBQvvrn88xUJ1Zutc8r'" matTooltip="AVANZADO" src="./assets/img/rango4.png" alt="..." style="width:40px;height:40px;">
+                                            <img *ngIf="user.categoria=='avXLP3usWFSPEsLVXzZ5'" matTooltip="EXPERTO" src="./assets/img/rango5.png" alt="..." style="width:40px;height:40px;">
+                                            <img *ngIf="user.categoria=='H9QaaiDibnR7wZNd8dTn'" matTooltip="MASTER" src="./assets/img/rango6.png" alt="..." style="width:40px;height:40px;">
+                                        </td>
+                                       
+                                        <td style="text-align:left;">
+                                            <img src="{{user.foto}}" alt="..." style="width:40px;height:40px;border-radius:50%;"> {{user.nombre}}  {{user.apellidos}}
+                                        </td>
+                                      
+                                        <td>
+                                            <i class="material-icons">offline_bolt</i> {{user.puntos}}
+                                        </td>
+                                       
+                                    </tr>
+
+                                </tbody>
+                                <!-- <div class="btn-group btn-group-sm" *ngIf="paginador">
+                                    <button mat-raised-button="" type="button" disabled="{{pagina === 0}}" (click)="listarsiguiente(false)" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i class="material-icons">keyboard_arrow_left</i></span>                                        
+                                    </button>
+                                    <button mat-raised-button="" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                       {{pagina+1}}                                    </button>
+                                    <button mat-raised-button="" disabled="{{usuarios!=undefined?usuarios.length < pagesize:false}}" (click)="listarsiguiente(true)" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i class="material-icons">keyboard_arrow_right</i></span>
+                                    </button>
+                                </div> -->
+                            </table>
+                            <div *ngIf="resultado" data-notify="container" class="alert alert-warning alert-with-icon animated fadeInRightBig">
+                                <i data-notify="icon" class="material-icons">notifications</i>
+
+                                <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                                <span data-notify="message">No se encontraron Resultados</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+         
+
+        </div>
+    </div>
+</div>

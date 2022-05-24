@@ -1,0 +1,48 @@
+.card {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}
+
+.card-pricing {
+    text-align: center;
+}
+
+.col-lg-6 {
+    -webkit-box-flex: 0;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+.card-pricing .card-icon i {
+    font-size: 55px;
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    width: 130px;
+    line-height: 130px;
+    height: 130px;
+}
+
+.botonF1 {
+    z-index: 100;
+    right: 10px;
+    bottom: 0;
+    position: fixed;
+}
+
+.botonF2 {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background: green;
+    z-index: 100;
+    left: 0;
+    bottom: 0;
+    position: fixed;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    border: none;
+    outline: none;
+    color: #FFF;
+    font-size: 36px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    transition: .3s;
+}

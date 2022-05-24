@@ -1,0 +1,260 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row" *ngIf='!registrar'>
+            <div class="col-md-12 ml-auto mr-auto animated fadeIn">
+                <div class="card card-profile">
+                    <div class="card-header  card-header-icon card-header-danger">
+                        <div class="card-icon">
+                            <h4>SOLICITUDES</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group btn-group-sm col-md-6">
+                            <button type="button" class="btn btn-success btn-round mat-button-base mat-raised-button" [ngClass]="{'btn-warning': findParam=='PENDIENTE'}">
+                                <span class="mat-button-wrapper">
+                                    <i class="material-icons">how_to_reg</i> </span> INSTRUCTOR</button>
+                            <button type="button" class="btn btn-outline-success mat-button-base mat-raised-button" [ngClass]="{'btn-outline-warning': findParam=='PENDIENTE'}">{{findParam}}</button>
+                            <button type="button" class="btn btn-outline-success mat-button-base mat-raised-button dropdown-toggle dropdown-toggle-split" [ngClass]="{'btn-outline-warning': findParam=='PENDIENTE'}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>                           
+                                    </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('PENDIENTE');buscarFiltro(true)">PENDIENTE</a>
+                                <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('APROBADO');buscarFiltro(true)">APROBADO</a>
+                            </div>
+                            <button mat-raised-button="" type="button" class="btn btn-round btn-primary mat-raised-button mat-button-base" (click)="buscarFiltro(false)"><i class="material-icons">search</i> </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary"></thead>
+                                <!-- <th colspan="5">
+                                   
+                                </th> -->
+                                <thead class="text-primary">
+                                    <th style="width: 30px;">
+
+                                    </th>
+
+                                    <th>
+                                        NOMBRE
+                                    </th>
+
+                                    <th>
+                                        ESTADO SOLICITUD
+                                    </th>
+                                    <th>
+                                        CANT. ESP
+                                    </th>
+
+                                    <th>
+                                        ACCIÓN
+                                    </th>
+                                </thead>
+
+
+                                <tbody>
+                                    <!-- <tr >
+                                    <td colspan="6">
+                                        </td>
+                                    </tr> -->
+                                    <tr *ngFor="let instruc of instructores">
+
+                                        <td>
+                                            <img src="{{instruc.foto_usuario}}" alt="..." style="width:40px;height:40px;border-radius: 50%;">
+                                        </td>
+                                        <td style="text-align: left;">
+                                            {{instruc.nombre_usuario}}
+                                        </td>
+                                        <td>
+                                            {{instruc.estado_solicitud}}
+                                        </td>
+
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn btn-primary btn-round btn-fab mat-raised-button mat-button-base">
+                                                <span class="mat-button-wrapper">
+                                                    <h6 class="card-title" style="color: white;">
+                                                    {{instruc.especialidades.length}}
+                                                </h6>
+                                            </span>
+                                             </button>
+
+                                        </td>
+
+
+                                        <td class="td-actions text-center">
+                                            <div class="btn-group" role="group" style="margin-bottom: 0px;margin-top: 0px;height: 25px;">
+                                                <button mat-raised-button="" type="button" (click)="mostrar(instruc)" class="mat-raised-button mat-button-base btn btn-warning">
+                                                <span class="mat-button-wrapper"><i class="material-icons">edit</i></span>
+                                                <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                <div class="mat-button-focus-overlay"></div>
+                                                </button>
+                                                <!-- <button mat-raised-button="" type="button" (click)="selected(especialidad)" class="mat-raised-button mat-button-base btn btn-danger" data-toggle="modal" data-target="#ModalEliminar">
+                                                    <span class="mat-button-wrapper"><i class="material-icons">delete</i></span>
+                                                    <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                    <div class="mat-button-focus-overlay"></div>
+                                                 </button> -->
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                                <div class="btn-group btn-group-sm" *ngIf="paginador">
+                                    <button mat-raised-button="" type="button" disabled="{{pagina === 0}}" (click)="listarsiguiente(false)" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i class="material-icons">keyboard_arrow_left</i></span>                                        
+                                    </button>
+                                    <button mat-raised-button="" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                       {{pagina+1}}                                    </button>
+                                    <button mat-raised-button="" disabled="{{instructores!=undefined?instructores.length < pagesize:false}}" (click)="listarsiguiente(true)" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i class="material-icons">keyboard_arrow_right</i></span>
+                                    </button>
+                                </div>
+                            </table>
+                            <div *ngIf="resultado" data-notify="container" class="alert alert-warning alert-with-icon animated fadeInRightBig">
+                                <i data-notify="icon" class="material-icons">notifications</i>
+
+                                <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                                <span data-notify="message">No se encontraron Resultados</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="registrar">
+            <div class="col-md-5">
+                <div class="card card-profile">
+                    <div class="col-md-12">
+                        <div class="card-avatar">
+                            <a href="javascript:void(0)">
+                                <img class="img" src="{{instructor.foto_usuario}}" />
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row ">
+                            <h4 class="card-title col-md-12 ml-auto mr-auto">{{instructor.nombre_usuario}} </h4>
+
+                            <h4 class="card-title col-12"><i class="material-icons">contact_phone</i>{{instructor.telefono}}</h4>
+                            <h6 class="card-category text-gray col-md-12 ml-auto mr-auto">Foto medio Cuerpo (Con Uniforme de gala si es Guias Mayor) *</h6>
+                            <div class="btn-group btn-group-md col-md-12 ml-auto mr-auto" role="group">
+                                <button type="button " [ngClass]="{ 'btn-danger':instructor.estado_foto=='RECHAZADA','btn-warning':instructor.estado_foto=='ENVIADA' } " class="btn btn-success btn-round btn-sm ">
+                                    {{instructor.estado_foto}}
+                                </button>
+                                <button type="button" class="btn btn-success btn-round btn-sm" (click)="aprobarFoto(true)"><i class="material-icons">check</i></button>
+                                <button type="button" class="btn btn-danger btn-round btn-sm" (click)="aprobarFoto(false)"><i class="material-icons">not_interested</i></button>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <img class="img col-md-6 ml-auto mr-auto" src="{{instructor.firma}}" style="width:170px;height:140px;" />
+                        </div>
+                        <div class="btn-group btn-group-md col-md-12 ml-auto mr-auto" role="group">
+                            <button type="button " [ngClass]="{ 'btn-danger':instructor.estado_firma=='RECHAZADA','btn-warning':instructor.estado_firma=='ENVIADA' } " class="btn btn-success btn-round btn-sm ">
+                                {{instructor.estado_firma}}
+                            </button>
+                            <button type="button" class="btn btn-success btn-round btn-sm" (click)="aprobarFirma(true)"><i class="material-icons">check</i></button>
+                            <button type="button" class="btn btn-danger btn-round btn-sm" (click)="aprobarFirma(false)"><i class="material-icons">not_interested</i></button>
+                        </div>
+
+
+
+                        <h6 class="card-title"> Perfil del Instructor:</h6>
+                        <p class="card-description">{{instructor.perfil}}</p>
+                        <div class="form-group">
+                            <textarea class="form-control" [(ngModel)]="instructor.observaciones" required name="perfil" placeholder="Realice una observacion para este instructor" rows="4"></textarea>
+                        </div>
+                        <div class=" row btn-group btn-group-md" role="group">
+                            <button mat-raised-button="" type="button" class="btn btn-primary " (click)="submit()">
+                                <i class="material-icons">save</i>GUARDAR
+                                </button>
+                            <button mat-raised-button="" type="button" class="btn btn-warning " (click)="limpiar()">
+                                    <i class="material-icons">refresh</i>CANCELAR
+                                    </button>
+                            <button mat-raised-button="" type="button" class="btn btn-success " (click)="modoRegistro(false)">
+                            <i class="material-icons">search</i>CONSULTAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="col-md-12">
+                    <!-- style="background: #cab2b212;" -->
+                    <div class="card">
+                        <form novalidate="" class="form-horizontal ng-untouched ng-pristine ng-invalid">
+                            <div class="card-header card-header-danger card-header-text">
+                                <div class="card-text">
+                                    <h4 class="card-title">ESPECIALIDADES SOLICITADAS</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class=" col-md-12">
+                                        <h6 class="card-category text-gray">Cantidad maxima de especialidedes que puede realizar este usuario*</h6>
+                                        <div class="btn-group btn-group-sm">
+                                            <button mat-raised-button="" type="button" disabled="{{instructor.max_especialidades === 0}}" (click)="contarespecialidades(false)" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper">-</span>                                        
+                                    </button>
+                                            <button mat-raised-button="" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        {{instructor.max_especialidades}}                                  </button>
+                                            <button mat-raised-button="" (click)="contarespecialidades(true)" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper">+</span>
+                                    </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 ml-auto mr-auto" *ngFor="let espec_soli of especialidadesSolicitadas">
+                                        <div class="card card-pricing card-raised ml-auto mr-auto">
+                                            <div class="card-body ml-auto mr-auto">
+                                                <h6 class="card-title ml-auto mr-auto">{{espec_soli.nombre}}</h6>
+                                                <div class="card-icon icon-rose ml-auto mr-auto">
+                                                    <!-- <i class="material-icons"> -->
+                                                    <img class="img ml-auto mr-auto" src="{{espec_soli.parche}}" style="width:130px;height:130px;" />
+                                                    <!-- </i> -->
+                                                </div>
+                                                <!-- <h3 class="card-title">$29</h3> -->
+
+                                                <div class=" row btn-group btn-group-md" role="group">
+                                                    <button mat-raised-button="" type="button " [ngClass]="{ 'btn-danger':espec_soli.estado=='RECHAZADA','btn-warning':espec_soli.estado=='ENVIADA' } " class="btn btn-success btn-round btn-sm ">
+                                                        <!-- <i *ngIf="espec_soli.estado!='RECHAZADA'" class="material-icons ">check</i>
+                                                        <i *ngIf="espec_soli.estado=='RECHAZADA'" class="material-icons">not_interested</i> -->
+                                                        {{espec_soli.estado}}
+                                                    </button>
+                                                    <button mat-raised-button="" type="button" class="btn btn-success btn-round btn-sm" (click)="aprobarEspecialidad(espec_soli,true)"><i class="material-icons">check</i></button>
+                                                    <button mat-raised-button="" type="button" class="btn btn-danger btn-round btn-sm" (click)="aprobarEspecialidad(espec_soli,false)"><i class="material-icons">not_interested</i></button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR USUARIO</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar el Rol {{especialidad.nombre}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

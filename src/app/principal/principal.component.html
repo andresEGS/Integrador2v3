@@ -1,0 +1,140 @@
+<!-- <div class="main-content"> -->
+<div class="main-content">
+    <form #Loginform="ngForm" (submit)="submit()">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a href="javascript:void(0)">
+                            <img class="img" src="{{url}}" />
+                        </a>
+
+                    </div>
+
+                    <div class="card-body">
+                        <h4 class="card-title">{{usuario.nombre}} {{usuario.apellidos}}</h4>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#modalVisorCategorias"> CATEGORÍA
+                            <div class="card-icon">
+                                <img alt="" src="./assets/img/{{categoria.imagen}}.png" style="width:40px;height:40px;">
+                            </div>
+                            <p class="card-description"> {{categoria.nombre}}</p>
+                        </a>
+                        <div>
+                            <div class="stats">
+                                <i class="material-icons">offline_bolt</i>
+                                <h4>{{usuario.puntos}}</h4>
+                            </div>
+                        </div>
+                        <span class="material-icons" *ngFor="let star of starts;">{{star}}</span>
+                       
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{'width': ( (usuario.puntos-categoria.puntos_inicial)/(categoria.puntos_max-categoria.puntos_inicial))*100+'%'}"
+                                aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{(((usuario.puntos-categoria.puntos_inicial)/(categoria.puntos_max-categoria.puntos_inicial))*100)| number}}%</div>
+                        </div>
+                        <!-- <div class="progress" style="height: 20px">
+                            <div
+                              class="progress-bar"
+                              role="progressbar"
+                              style="width: 25%"
+                              aria-valuenow="50"
+                              aria-valuemin="0"
+                              aria-valuemax="100"
+                            >
+                              25%
+                            </div>
+                          </div> -->
+
+
+
+                    </div>
+                    <!-- <p>
+                        <iframe width="560" height="315" [src]="getVideoIframe('https://www.youtube.com/watch?v=MJ9cov1lk64&list=RDmC-zw0zCCtg&index=27')" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </p> -->
+
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <!-- <div class=" col-md-3" matRipple>
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon" [routerLink]="'/preguntas_usuario'">
+                        <div class="card-icon">
+                            <img alt="" src="./assets/img/evaluar.png" style="width:90px;height:90px;">
+                        </div>
+                        <h4 class="card-title">EVALUAR
+                        </h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" matRipple>
+
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon " [routerLink]="'/tema_usuario'">
+                        <div class="card-icon">
+                            <img alt="" src="./assets/img/aprender.png" style="width:90px;height:90px;">
+                        </div>
+                        <h4 class="card-title">APRENDER
+                        </h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+        </div>
+    </form>
+</div>
+
+<div class="modal fade" id="modalVisorCategorias" tabindex="-1" role="dialog" aria-labelledby="ariamodalVisorCategorias"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="row">
+
+            <div class="card card-profile modal-content">
+                <div class="card-header  card-header-icon card-header-danger">
+                    <div class="card-icon">
+                        <h4>CATEGORIAS</h4>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <!-- <div *ngFor="let cate of categorias"> -->
+                    <div class="row">
+
+                        <div class="col-md-6" *ngFor="let cate of categorias">
+                            <div class="card card-stats">
+                                <a href="javascript:void(0)">
+                                    <div class="card-header  card-header-icon " [ngClass]="{'card-header-success': cate.id===categoria.id}">
+                                        <div class="card-icon">
+                                            <img alt="" src="./assets/img/{{cate.imagen}}.png"
+                                                style="width:30px;height:30px;">
+                                        </div>
+                                        <h4 class="card-title">{{cate.nombre}} </h4>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            <p class="card-category"><i class="material-icons">offline_bolt</i>{{cate.puntos_inicial}}<-->{{cate.puntos_max}}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <!-- </div> -->
+                            </div>
+                        </div>
+
+                        <!-- </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->

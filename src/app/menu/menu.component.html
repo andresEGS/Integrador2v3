@@ -1,0 +1,221 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-6 ml-auto mr-auto animated fadeIn" *ngIf='!registrar'>
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">CONSULTAR ROLES
+                            <!-- <p class="card-category">Complete your profile</p> -->
+                            <button mat-raised-button="" class="btn btn-success " (click)="modoRegistro(true)">
+                            <span class="mat-button-wrapper">
+                                <i class="material-icons">add_box</i> CREAR NUEVO MENU </span>
+                                <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                <div class="mat-button-focus-overlay"></div>
+                            </button>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+
+                                            <th>
+                                                NOMBRE
+                                            </th>
+                                            <th>
+                                                ACCIONES
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let menu of listaMenu">
+
+                                                <td>
+                                                    <a class="nav-link" href="javascript:void(0)">
+
+                                                        <i class="material-icons" *ngIf="menu.class!='imagen'">{{menu.icon}}</i>
+                                                        <i class="material-icons" *ngIf="menu.class==='imagen'">
+                                                             <img alt="" src="./assets/img/{{menu.icon}}">
+                                                         </i> {{menu.title}}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                                        <button type="button" class="btn btn-sm btn-warning" (click)="mostrarMenu(menu)"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" (click)="selectedMenu(menu)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalEliminarRol">
+                                                              <i class="material-icons">delete</i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ml-auto mr-auto animated fadeIn" *ngIf="registrar">
+                <div class="card">
+                    <form #Loginform="ngForm" (submit)="submit()">
+                        <div class="card-header card-header-danger">
+                            <h4 class="card-title">REGISTAR MENU
+
+
+                            </h4>
+
+                        </div>
+
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput [(ngModel)]="menu.title" name="title" placeholder="Nombre del Rol" type="text" required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <mat-form-field class="example-full-width">
+                                            <i class="material-icons" *ngIf="menu.class!='imagen'">{{menu.icon}}</i>
+                                            <i class="material-icons" *ngIf="menu.class==='imagen'"><img alt="" src="./assets/img/{{menu.icon}}"></i>
+                                            <input matInput [(ngModel)]="menu.icon" name="icon" placeholder="Nombre del Icono" type="text" required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12" *ngIf="toppings.value=='menu'">
+                                    <div class="form-group">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput [(ngModel)]="menu.path" name="path" placeholder="Nombre del path" type="text" required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-md-6">
+                                        <label class="example-margin">Class:</label><br />
+                                        <mat-radio-group [(ngModel)]="menu.class" name="class1">
+                                            <mat-radio-button value="imagen">imagen</mat-radio-button>
+                                            <mat-radio-button value="">icono</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Tipo Menu</mat-label>
+                                        <mat-select [formControl]="toppings" required>
+                                            <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="col-sm-12 " *ngIf="toppings.value!='menu'">
+                                    <button type="button" (click)="prepararSubmenu()" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#ModalAddMenu">
+                                        <i class="material-icons">add</i>
+                                  </button>
+                                    <label>Sub Menus cargados</label>
+                                    <ul class="list-group " style="text-align: left; ">
+                                        <li *ngFor="let men of menu.menu " class="list-group-item ">
+                                            <button type="button " (click)="eliminarSubMenu(men) " class="btn btn-danger btn-sm "><i class="fa fa-minus-circle "></i></button>
+                                            <i class="material-icons" *ngIf="men.class!='imagen'">{{men.icon}}</i>
+                                            <i class="material-icons" *ngIf="men.class==='imagen'">
+                                                <img alt="" src="./assets/img/{{men.icon}}"> 
+                                            </i> {{men.title}}
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="btn-group btn-group-md" role="group">
+                                <button type="submit" class="btn btn-primary btn-round btn-sm"><i class="material-icons">save</i>Guardar</button>
+                                <button type="button" (click)="limpiar()" class="btn btn-warning btn-round btn-sm"><i class="material-icons">refresh</i>Limpiar</button>
+                                <button type="button" (click)="modoRegistro()" class="btn btn-success btn-round btn-sm"><i class="material-icons">search</i>Consultar</button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalAddMenu" tabindex="-1" role="dialog" aria-labelledby="ModaladdMenu" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModaladdMenu">AGREGAR NUEVO SUB MENU</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <mat-form-field class="example-full-width">
+                                <input matInput [(ngModel)]="menuSub.title" name="menuSubtitle" placeholder="Title" type="text" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <mat-form-field class="example-full-width">
+                                <input matInput [(ngModel)]="menuSub.icon" name="menuSubicon" placeholder="Icono ó Imagen" type="text" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <mat-form-field class="example-full-width">
+                                <input matInput [(ngModel)]="menuSub.path" name="menuSubpath" placeholder="Path" type="text" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="example-margin">Class:</label><br />
+                        <mat-radio-group [(ngModel)]="menuSub.class" name="menuSubclass">
+                            <mat-radio-button value="imagen">imagen</mat-radio-button>
+                            <mat-radio-button value="">icono</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="agregarSubMenu()" class="btn btn-primary">Agregar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEliminarRol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR Rol</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar el Menu {{menuSelect.title}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+.modal-backdrop{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100 !important;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+}
+
+.centrador{
+  position: relative;
+  
+}
+
+.imagen{
+    width: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin:0 auto;
+}
+
+.photo {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  /* float: left; */
+  /* z-index: 5; */
+  margin-right: 11px;
+  border-radius: 50%;
+  margin-left: 23px;
+  /* box-shadow: 0 16px 38px -12px rgba(0, 0, 0, .56), 0 4px 25px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2); */
+}

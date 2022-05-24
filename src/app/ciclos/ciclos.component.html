@@ -1,0 +1,174 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-8 ml-auto mr-auto animated fadeIn" *ngIf='!registrar'>
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">CONSULTAR CICLO</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group btn-group-md" role="group">
+
+                            <button type="button" (click)="modoRegistro(true);limpiar()" class="btn btn-success btn-round btn-sm"><i class="material-icons">add_box</i>CREAR NUEVO CICLO</button>
+                        </div>
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Año</mat-label>
+                                            <mat-select [formControl]="anioselect" required (ngModelChange)="buscarCilos(anioselect.value)">
+                                                <mat-option *ngFor="let anio of anios" [value]="anio">{{anio}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" (click)="buscarCilos(anioselect.value)" class="btn btn-success btn-round btn-lg col-2"><i class="material-icons">search</i></button>
+
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class=" text-primary">
+
+                                            <th>
+                                                AÑO
+                                            </th>
+                                            <th>
+                                                CONSECUTIVO
+                                            </th>
+                                            <th>
+                                                DURACION
+                                            </th>
+                                            <th>
+                                                ACTION
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let ciclo of ciclos">
+
+                                                <td>
+                                                    {{ciclo.anio}}
+                                                </td>
+                                                <td class="text-title">
+                                                    {{ciclo.consecutivo}}
+                                                </td>
+                                                <td>
+                                                    Desde el {{ciclo.fecha_inicio | date: 'dd-MM-yyyy' }} Hasta el {{ciclo.fecha_cierre | date: 'dd-MM-yyyy' }}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                                        <button type="button" class="btn btn-sm btn-warning" (click)="mostrarRol(ciclo)"><i class="fa fa-edit"></i></button>
+                                                        <button type="button" (click)="selectedCiclo(ciclo)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#ModalEliminarRol">
+                                                              <i class="material-icons">delete</i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ml-auto mr-auto animated fadeIn" *ngIf="registrar">
+                <div class="card">
+                    <form #Loginform="ngForm" (submit)="submit()">
+                        <div class="card-header card-header-danger">
+                            <h4 class="card-title">REGISTRAR CICLOS</h4>
+                            Año: {{ fechaInicial.year }}
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput [(ngModel)]="ciclo.consecutivo" name="ciclo" placeholder="Ingrese consecutivo del ciclo" type="text" required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+                                    </ngb-datepicker>
+
+                                    <ng-template #t let-date let-focused="focused">
+                                        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                                        {{ date.day }}
+                                      </span>
+                                    </ng-template>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <label class="btn btn-outline-secondary btn-sm">Fecha Inicial:</label>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <!-- (change)="changeFechaEntrega()" -->
+                                            <input class="form-control" [positionTarget]="left" placeholder="yyyy-mm-dd" name="fecha_i" [(ngModel)]="fechaInicial" ngbDatepicker #fecha_i="ngbDatepicker">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-sm btn-success" (click)="fecha_i.toggle()">
+                                            <i class="material-icons">today</i>
+                                          </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="btn btn-outline-secondary btn-sm">Fecha Cierre</label>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <!-- (change)="changeFechaEntrega()" -->
+                                            <input class="form-control" [positionTarget]="left" placeholder="yyyy-mm-dd" name="fecha_a" [(ngModel)]="fechaFinal" ngbDatepicker #fecha_a="ngbDatepicker">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-sm btn-success" (click)="fecha_a.toggle()">
+                                            <i class="material-icons">today</i>
+                                          </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="btn-group btn-group-md" role="group">
+                                    <button type="submit" class="btn btn-primary btn-round btn-sm"><i class="material-icons">save</i>Guardar</button>
+                                    <button type="button" (click)="limpiar()" class="btn btn-warning btn-round btn-sm"><i class="material-icons">refresh</i>Limpiar</button>
+                                    <button type="button" (click)="modoRegistro(false)" class="btn btn-success btn-round btn-sm"><i class="material-icons">search</i>Consultar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEliminarRol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR Rol</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar el Ciclo {{ciclo.anio}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

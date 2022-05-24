@@ -1,0 +1,291 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto animated fadeIn" *ngIf='!registrar'>
+                <div class="card card-profile">
+
+                    <div class="card-header  card-header-icon card-header-danger">
+                        <div class="card-icon">
+                            <h4>USUARIOS REGISTRADOS</h4>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group btn-group-sm col-md-6">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-success btn-round " (click)="modoRegistro(true)" title="CREAR NUEVO USUARIO">
+                                    <span class="mat-button-wrapper">
+                                        <i class="material-icons">add_box</i> </span></button>
+                                <button type="button" class="btn btn-outline-secondary">{{findParam}}</button>
+                                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('NOMBRE');buscarFiltro(true)">NOMBRE</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('APELLIDO');buscarFiltro(true)">APELLIDO</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('IDENTIFICACION');buscarFiltro(true)">IDENTIFICACION</a>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" style="left: 10px;" name="findCliente" (input)="buscarFiltro(true)" [(ngModel)]="findValue" placeholder="Buscar..." aria-label="Text input with segmented dropdown button">
+                            <button type="button" class="btn btn-primary btn btn-primary btn-round btn-fab mat-raised-button mat-button-base" (click)="buscarFiltro(false)"><i class="material-icons">search</i> </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary"></thead>
+                                <!-- <th colspan="5">
+                                   
+                                </th> -->
+                                <thead class="text-primary">
+                                    <!-- <th style="width: 50px;">
+                                        ID5
+                                    </th> -->
+                                    <th>
+                                        IDENTIFICAION
+                                    </th>
+                                    <th>
+                                        NOMBRE
+                                    </th>
+                                    <th>
+                                        APELLIDO
+                                    </th>
+                                    <th>
+                                        CORREO
+                                    </th>
+                                    <th>
+                                        ACTUALIZADO
+                                    </th>
+                                    <th>
+                                        ACCIÓN
+                                    </th>
+                                </thead>
+
+
+                                <tbody>
+                                    <!-- <tr >
+                                    <td colspan="6">
+                                        </td>
+                                    </tr> -->
+                                    <tr *ngFor="let usuario of usuarios">
+                                        <!-- <td style="width: 50px;">
+                                            {{usuario.id}}
+                                        </td> -->
+                                        <td>
+                                            {{usuario.identificacion}}
+                                        </td>
+                                        <td>
+                                            {{usuario.nombre}}
+                                        </td>
+                                        <td>
+                                            {{usuario.apellidos}}
+                                        </td>
+                                        <td>
+                                            {{usuario.email}}
+                                        </td>
+                                        <td>
+                                            <button mat-raised-button="" class="btn btn-link btn-google mat-raised-button mat-button-base">
+                                                <span class="mat-button-wrapper">
+                                                    <i class="material-icons">date_range</i> {{usuario.fecha_update | date: 'yyyy-MM-dd HH:mm:ss' }} </span>
+                                                <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                <div class="mat-button-focus-overlay"></div>
+                                            </button>
+                                        </td>
+
+                                        <td class="td-actions text-center">
+                                            <div class="btn-group" role="group" style="margin-bottom: 0px;margin-top: 0px;height: 25px;">
+                                                <button mat-raised-button="" type="button" (click)="mostrar(usuario)" class="mat-raised-button mat-button-base btn btn-warning">
+                                                <span class="mat-button-wrapper"><i class="material-icons">edit</i></span>
+                                                <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                <div class="mat-button-focus-overlay"></div>
+                                                </button>
+                                                <button mat-raised-button="" type="button" (click)="selectedRol(usuario)" class="mat-raised-button mat-button-base btn btn-danger" data-toggle="modal" data-target="#ModalEliminarRol">
+                                                    <span class="mat-button-wrapper"><i class="material-icons">delete</i></span>
+                                                    <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                    <div class="mat-button-focus-overlay"></div>
+                                                 </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                                <div class="btn-group btn-group-sm" *ngIf="paginador">
+                                    <button mat-raised-button="" type="button" disabled="{{pagina === 0}}" (click)="listarsiguiente(false)" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i class="material-icons">keyboard_arrow_left</i></span>                                        
+                                    </button>
+                                    <button mat-raised-button="" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                       {{pagina+1}}                                    </button>
+                                    <button mat-raised-button="" disabled="{{usuarios!=undefined?usuarios.length < 4:false}}" (click)="listarsiguiente(true)" type="button" class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i class="material-icons">keyboard_arrow_right</i></span>
+                                    </button>
+                                </div>
+                            </table>
+                            <div *ngIf="resultado" data-notify="container" class="alert alert-warning alert-with-icon animated fadeInRightBig">
+                                <i data-notify="icon" class="material-icons">notifications</i>
+
+                                <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                                <span data-notify="message">No se encontraron Resultados</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 ml-auto mr-auto animated fadeIn" *ngIf="registrar">
+                <div class="card">
+                    <form #Loginform="ngForm" (submit)="submit()">
+                        <div class="card-header card-header-danger">
+                            <h4 class="card-title">REGISTAR USUARIO
+
+                            </h4>
+                            <p class="card-category">Ingrese los datos del Usuario</p>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 md-auto mr-auto">
+                                    <div class="card-avatar">
+                                        <!-- <a href="javascript:void(0)"> -->
+                                        <img class="img" src="{{usuario.foto!=null?usuario.foto:'../assets/img/faces/logo.png'}}" style="width:140px;height:140px;" />
+                                        <!-- </a> -->
+
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="col-12">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput [(ngModel)]="identificacion" name="identificacion" placeholder="Identificacion" type="number" required>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-12">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput [(ngModel)]="usuario.nombre" name="nombre" placeholder="Nombre del usuario" type="text" required>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-12">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput [(ngModel)]="usuario.apellidos" name="apelidos" placeholder="Apellidos" type="text" required>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [(ngModel)]="usuario.direccion" name="direccion" (input)="usuario.direccion=usuario.direccion.toUpperCase()"  placeholder="direccion" type="text" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [(ngModel)]="email" (input)="email=email.toUpperCase()" name="email" placeholder="Correo Eléctronico" type="text" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [(ngModel)]="usuario.telefono" type="text" name="telefono" placeholder="Celular" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [(ngModel)]="login" (input)="login=login.toUpperCase()" name="login" placeholder="Usuario" type="text" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [(ngModel)]="usuario.password" type="password" name="password" placeholder="Password" required>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                <button mat-raised-button="" type="submit" class="btn btn-primary">
+                            <i class="material-icons">save</i>GUARDAR
+                          </button>
+                                <button mat-raised-button="" class="btn btn-success " (click)="modoRegistro(false)">
+                        <i class="material-icons">search</i>CONSULTAR
+                      </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-md-4 ml-auto mr-auto animated fadeIn" *ngIf="registrar">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">ROLES DEL USUARIO
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" (click)="selecionarTodos()" [(ngModel)]="seleccionartodos" name="seleccionartodos" >
+                                   <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>                                   
+                            </label>
+                            </div>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+
+                                <tbody>
+
+                                    <tr *ngFor="let rol of listaRoles">
+                                        <td>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" [(ngModel)]="rol.check" name="menu{{rol.id}}" >
+                                                    <span class="form-check-sign">
+                                                        <span class="check"></span>
+                                                    </span>
+                                                </label>
+
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <a class="nav-link" href="javascript:void(0)"> {{rol.nombre}} </a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEliminarRol" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR USUARIO</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar el Rol {{usuario.nombre}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

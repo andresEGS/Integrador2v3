@@ -1,0 +1,273 @@
+<div class="main-content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto animated fadeIn">
+
+                <div class="card card-profile">
+
+                    <div class="card-header card-header-danger">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h4 class="card-title"> <button type="button" [routerLink]="'/principal'"
+                                        class="btn-sm btn-success">
+                                        <span class="mat-button-wrapper">
+                                            <i class="material-icons">arrow_back_ios</i>
+                                        </span>
+                                    </button></h4>
+                            </div>
+                            <div class="col-md-10">
+                                <h4 class="card-title">REGISTAR TEMA</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group btn-group-sm col-md-6">
+                     
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="text-primary"></thead>
+                                <!-- <th colspan="5">
+                                   
+                                </th> -->
+                                <thead class="text-primary">
+                                    <!-- <th style="width: 10px;"></th> -->
+                                    <th style="text-align: left;">
+                                        TEMA
+                                    </th>
+
+                                    <th>
+                                        PUNTOS NECESARIOS
+                                    </th>
+                                    <th colspan="2">
+                                        ORDEN
+                                    </th>
+                                </thead>
+
+
+                                <tbody>
+                                    <tr *ngFor="let tema of temas">
+                                        <!-- <td style="width: 10px;"></td> -->
+                                        <td style="text-align: left;">
+                                            {{tema.nombre}}
+                                        </td>
+
+                                        <td>
+                                            {{tema.puntos}}
+                                        </td>
+                                        <!-- <td>
+                                            {{tema.orden}}
+                                        </td> -->
+
+
+                                        <td class="td-actions text-center">
+                                            <button *ngIf="usuario.puntos>=tema.puntos" mat-raised-button=""
+                                                type="button" class="btn btn-danger " (click)="selected(tema)"
+                                                data-toggle="modal" data-target="#modalVisor">
+                                                <i class="material-icons">preview</i>
+                                            </button>
+                                        </td>
+
+                                        <td class="td-actions text-center">
+
+                                            <div class="btn-group mr-2 " role="group"
+                                                style="margin-bottom: 0px;margin-top: 0px;height: 25px;">
+
+                                                <button mat-raised-button="" type="button" (click)="mostrar(tema)"
+                                                    class="mat-raised-button mat-button-base btn "
+                                                    [ngClass]="{'btn-success': usuario.puntos>=tema.puntos}">
+                                                    <span class="mat-button-wrapper">
+                                                        <i *ngIf="usuario.puntos>=tema.puntos" class="material-icons">check</i>
+                                                        <i *ngIf="usuario.puntos<tema.puntos"  class="material-icons">clock</i>
+                                                    </span>
+                                                    <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                    <div class="mat-button-focus-overlay"></div>
+                                                </button>
+
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                                <div class="btn-group btn-group-sm" *ngIf="paginador">
+                                    <button mat-raised-button="" type="button" disabled="{{pagina === 0}}"
+                                        (click)="listarsiguiente(false)"
+                                        class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i
+                                                class="material-icons">keyboard_arrow_left</i></span>
+                                    </button>
+                                    <button mat-raised-button="" type="button"
+                                        class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        {{pagina+1}} </button>
+                                    <button mat-raised-button=""
+                                        disabled="{{temas!=undefined?temas.length < pagesize:false}}"
+                                        (click)="listarsiguiente(true)" type="button"
+                                        class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                        <span class="mat-button-wrapper"><i
+                                                class="material-icons">keyboard_arrow_right</i></span>
+                                    </button>
+                                </div>
+                            </table>
+                            <div *ngIf="resultado" data-notify="container"
+                                class="alert alert-warning alert-with-icon animated fadeInRightBig">
+                                <i data-notify="icon" class="material-icons">notifications</i>
+
+                                <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                                <span data-notify="message">No se encontraron Resultados</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col-md-4">
+        <div class="card card-product" data-count="1">
+            <div data-header-animation="true" class="card-header card-header-image"><a href="#pablo"><img
+                        src="./assets/img/sidebar-1.jpg" class="img"></a></div>
+            <div data-header-animation="true" class="card-header card-header-image"><a href="#pablo"><img
+                        src="https://mdbcdn.b-cdn.net/img/new/standard/city/053.jpg" class="img"></a></div>
+            <div data-header-animation="true" class="card-header card-header-image"><a href="#pablo">
+                    <p>
+                        <iframe width="95%" height="350px" style="position: relative;
+                            padding: 0;
+                            z-index: 1;
+                            margin-left: 15px;
+                            margin-right: 15px;
+                            margin-top: -30px;
+                            border-radius: 6px;"
+                            [src]="getVideoIframe('https://www.youtube.com/watch?v=MJ9cov1lk64&list=RDmC-zw0zCCtg&index=27')"
+                            class="img" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </p>
+                </a></div>
+            <div class="card-body">
+
+                <div class="card-actions text-center"><button mat-raised-button="" type="button"
+                        class="btn btn-danger btn-link fix-broken-card mat-raised-button mat-button-base"><span
+                            class="mat-button-wrapper"><i class="material-icons">build</i> Fix Header! </span>
+                        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button><button mat-raised-button="" type="button" mattooltip="View"
+                        class="btn btn-default btn-link mat-raised-button mat-button-base"
+                        aria-describedby="cdk-describedby-message-2" cdk-describedby-host=""><span
+                            class="mat-button-wrapper"><i class="material-icons">art_track</i></span>
+                        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button>
+                    <button mat-raised-button="" type="button" mattooltip="Edit"
+                        class="btn btn-success btn-link mat-raised-button mat-button-base"
+                        aria-describedby="cdk-describedby-message-3" cdk-describedby-host=""><span
+                            class="mat-button-wrapper"><i class="material-icons">edit</i></span>
+                        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button>
+                    <button mat-raised-button="" type="button" mattooltip="Remove"
+                        class="btn btn-danger btn-link mat-raised-button mat-button-base"
+                        aria-describedby="cdk-describedby-message-4" cdk-describedby-host=""><span
+                            class="mat-button-wrapper"><i class="material-icons">close</i></span>
+                        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button>
+                </div>
+                <h4 class="card-title"><a href="#pablo">Cozy 5 Stars Apartment</a></h4>
+                <div class="card-description"> The place is close to Barceloneta Beach and bus stop just 2 min by walk
+                    and near to "Naviglio" where you can enjoy the main night life in Barcelona. </div>
+            </div>
+            <div class="card-footer">
+                <div class="price">
+                    <h4>$899/night</h4>
+                </div>
+                <div class="stats">
+                    <p class="card-category"><i class="material-icons">place</i> Barcelona, Spain</p>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+
+</div> -->
+
+<div class="modal fade" id="modalVisor" tabindex="-1" role="dialog" aria-labelledby="ariamodalVisor" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="row">
+
+            <div class="card card-profile modal-content">
+                <div class="card-header  card-header-icon card-header-danger">
+                    <div class="card-icon">
+                        <h4>{{tema.nombre}}</h4>
+                    </div>
+
+                </div>
+                <!-- <div class="card-avatar">
+                    <a href="javascript:void(0)">
+                        <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/053.jpg" class="img">
+                    </a>
+                </div> -->
+                <div class="card-body ">
+                    <img *ngIf="tema.imagen" width="100%" height="250px" src="{{tema.imagen}}" class="img">
+                    <iframe *ngIf="tema.video" width="100%" height="250px" style="position: relative;
+                    margin-top: 30px;
+                    border-radius: 6px;" [src]="getVideoIframe()" class="img" frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+
+                    <h4 class="card-title"><a>{{nombre}}</a></h4>
+                    <div class="card-description"> {{tema.contenido}} </div>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">offline_bolt</i>
+                        <h4>{{tema.puntos}}</h4>
+                    </div>
+                    <div class="stats">
+                        <p class="card-category"><i class="material-icons">place</i> London, UK</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ariamodalVisor">VISUALIZACION PREBIA</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR USUARIO</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar el Rol {{tema.nombre}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

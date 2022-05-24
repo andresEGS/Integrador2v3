@@ -1,0 +1,264 @@
+<div class="main-content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto animated fadeIn">
+
+                <div class="card card-profile">
+                    <div class="card-header card-header-danger">
+                        <div class="row" *ngIf="panel_dificultad">
+                            <div class="col-md-2">
+                                <h4 class="card-title"> <button type="button" [routerLink]="'/principal'"
+                                        class="btn-sm btn-success">
+                                        <span class="mat-button-wrapper">
+                                            <i class="material-icons">arrow_back_ios</i>
+                                        </span>
+                                    </button></h4>
+                            </div>
+                            <div class="col-md-10">
+                                <h4 class="card-title">SELECIONE DIFICULTAD TEMA </h4>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="quiz">
+                            <div class="col-md-12">
+                                <h4 class="card-title">QUIZ EN MODO {{dificultad}}</h4>
+                              {{num_pregunta+1}}/{{num_pregunta_max}}
+                              <div class="stats">
+                                <i class="material-icons">offline_bolt</i>
+                                <h4>{{puntos}} PUNTOS</h4>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar"  [ngStyle]="{'width': (((num_pregunta)/(num_pregunta_max))*100)+'%'}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{(((num_pregunta)/(num_pregunta_max))*100)}}%</div>
+                              </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row" *ngIf="resultado">
+                            <div class="col-md-2">
+                                <h4 class="card-title"> <button type="button" [routerLink]="'/principal'"
+                                        class="btn-sm btn-success">
+                                        <span class="mat-button-wrapper">
+                                            <i class="material-icons">arrow_back_ios</i>
+                                        </span>
+                                    </button></h4>
+                            </div>
+                            <div class="col-md-10">
+                                <h4 class="card-title">RESULTADOS</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body" *ngIf="panel_dificultad">
+                        <div class="col-md-12" matRipple (click)="selectDificultad('FACIL')" data-toggle="modal"
+                            data-target="#ModalComenzar" [matRippleColor]="'#338F02'">
+                            <div class="card card-stats">
+                                <a href="javascript:void(0)">
+                                    <div class="card-header card-header-success card-header-icon ">
+                                        <div class="card-icon">
+                                            <img alt="" src="./assets/img/facil.png" style="width:90px;height:90px;">
+                                        </div>
+                                        <h2 class="card-title">FÁCIL </h2>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            <p class="card-category"><i class="material-icons">offline_bolt</i>1/5
+                                                Preguntas</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-12" matRipple (click)="selectDificultad('MEDIO')" data-toggle="modal"
+                            data-target="#ModalComenzar" [matRippleColor]="'#ECA008'">
+                            <div class="card card-stats">
+                                <a href="javascript:void(0)">
+                                    <div class="card-header card-header-warning card-header-icon ">
+                                        <div class="card-icon">
+                                            <img alt="" src="./assets/img/medio.png" style="width:90px;height:90px;">
+                                        </div>
+                                        <h2 class="card-title">MEDIO </h2>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            <p class="card-category"><i class="material-icons">offline_bolt</i>1/10
+                                                Preguntas</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-12" matRipple (click)="selectDificultad('DIFICIL')" data-toggle="modal"
+                            data-target="#ModalComenzar" [matRippleColor]="'#F76161'">
+                            <div class="card card-stats">
+                                <a href="javascript:void(0)">
+                                    <div class="card-header card-header-danger card-header-icon ">
+                                        <div class="card-icon">
+                                            <img alt="" src="./assets/img/dificil.png" style="width:90px;height:90px;">
+                                        </div>
+                                        <h2 class="card-title">DIFÍCIL </h2>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="stats">
+                                            <p class="card-category"><i class="material-icons">offline_bolt</i> 1/20
+                                                Preguntas</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" *ngIf="quiz">
+                        <div class="card-body ">
+                            <h5>{{preguntaSelect.tema_nombre}}</h5>
+                            <div class="col-md-12 ml-auto mr-auto">
+                                <div class="card ">
+                                    <div class="card-body  text-center "  [ngClass]="{'card-header-danger': preguntaSelect.dificultad==='DIFICIL',
+                                    'card-header-success': preguntaSelect.dificultad==='FACIL',
+                                    'card-header-warning': preguntaSelect.dificultad==='MEDIO'}">
+                                        <h5>{{preguntaSelect.nombre}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-header card-header-image">
+                                <a href="#"><img *ngIf="preguntaSelect.imagen" src="{{preguntaSelect.imagen}}"
+                                        style="height:180px" class="img"></a>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 ml-auto mr-auto">
+                                    <div class="card-body text-center">
+                                        <h6>RESPUESTAS:</h6>
+                                    </div>
+                                </div>
+                               
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 ml-auto mr-auto"  matRipple *ngFor="let res of preguntaSelect.respuestas"  [matRippleColor]="'#ECA008'">
+                                    <div  *ngIf="!res.isImagen" class="card card-stats"  (click)="selectRespuesta(res)" data-toggle="modal"
+                                    data-target="#ModalConfirmar">
+                                        <a href="javascript:void(0)">
+                                            <div class="card-header  card-header-icon " [ngClass]="{'card-header-danger': preguntaSelect.dificultad==='DIFICIL',
+                                            'card-header-success': preguntaSelect.dificultad==='FACIL',
+                                            'card-header-warning': preguntaSelect.dificultad==='MEDIO'}">
+                                                <div class="card-icon">
+                                                    {{res.letra}}
+                                                </div>
+                                                <div class="card-body text-center">
+                                                    <code>{{res.nombre}}</code>
+                                                </div>
+                                            </div>
+
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ml-auto mr-auto"  matRipple *ngFor="let res of preguntaSelect.respuestas"  [matRippleColor]="'#ECA008'">
+                                <div  *ngIf="res.isImagen" class="card card-stats"  (click)="selectRespuesta(res)" data-toggle="modal"
+                                data-target="#ModalConfirmar">
+                                    <a href="javascript:void(0)">
+                                        <div class="card-header  card-header-icon " [ngClass]="{'card-header-danger': preguntaSelect.dificultad==='DIFICIL',
+                                        'card-header-success': preguntaSelect.dificultad==='FACIL',
+                                        'card-header-warning': preguntaSelect.dificultad==='MEDIO'}">
+                                            <div class="card-icon">
+                                                {{res.letra}}
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <img src="{{res.imagen}}" style="width:100px;height:100px" class="img">
+                                            </div>
+                                        </div>
+
+                                    </a>
+                                </div>
+                            </div>
+                             
+
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons">offline_bolt</i>
+                                <h4>-</h4>
+                            </div>
+                            <div class="stats">
+                                <p class="card-category"><i class="material-icons">place</i> </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body" *ngIf="resultado">
+                        <h4 class="card-title">{{usuario_session.nombre}} {{usuario_session.apellidos}}</h4>
+                        <h4 class="card-title">QUIZ EN MODO {{dificultad}}</h4>
+                        {{num_pregunta}}/{{num_pregunta_max}}
+                        <div>
+                            <div class="stats">
+                                <i class="material-icons">offline_bolt</i>
+                                <h4>{{puntos}} PUNTOS GANADOS</h4>
+                            </div>
+                        </div>
+                       <!-- <div> <span class="material-icons">shield</span>
+                        <p class="card-description"> PRINCIPIANTE</p></div>
+                        <span class="material-icons">star</span>
+                        <span class="material-icons">star</span>
+                        <span class="material-icons">star_half</span>
+                        <span class="material-icons">star_outline</span>
+                        <span class="material-icons">star_outline</span> -->
+                       <div>
+                        Correctas: {{num_pregunta_correctas}}
+                        <div class="progress-bar" role="progressbar"  [ngStyle]="{'width': (((num_pregunta_correctas)/(num_pregunta_max))*100)+'%'}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{(((num_pregunta_correctas)/(num_pregunta_max))*100)}}%</div>
+                        Incorrectas:{{num_pregunta_erradas}}
+                         <div class="progress-bar bg-danger" role="progressbar"  [ngStyle]="{'width':(((num_pregunta_erradas)/(num_pregunta_max))*100)+'%'}" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{(((num_pregunta_erradas)/(num_pregunta_max))*100)}}%</div>
+
+                       </div>
+                         <div>
+                            <h3> {{msg_resultado}}</h3>
+                         </div>
+                            
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalConfirmar" tabindex="-1" role="dialog" aria-labelledby="exampleModalComenzar"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalComenzar">RESPUESTA</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Desea Confirmar la respuesta {{respuestaSelect.letra}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" class="btn btn-success" (click)="siguientePregunta()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalComenzar" tabindex="-1" role="dialog" aria-labelledby="exampleModalComenzar"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalComenzar">COMENZAR QUIZ</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Desea realizar el Quiz en modo {{dificultad}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" class="btn btn-success" (click)="modoQuiz(true)">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>

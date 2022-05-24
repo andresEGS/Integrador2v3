@@ -1,0 +1,236 @@
+<!-- <div class="main-content">
+  <div class="container-fluid"> -->
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">REGISTAR PIEZAS</h4>
+            <!-- <p class="card-category">Complete your profile</p> -->
+          </div>
+          <div class="card-body">
+            <form>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Nombre de la pieza" (input)="pieza.nombre=pieza.nombre.toUpperCase()"
+                      [(ngModel)]="pieza.nombre" required name="nombre" id="nombre" 
+                      type="text">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <label class="example-margin">Sexo:</label><br />
+                  <mat-radio-group [(ngModel)]="pieza.sexo" name="sexo">
+                    <mat-radio-button value="M">Hombre</mat-radio-button>
+                    <mat-radio-button value="F">Mujer</mat-radio-button>
+                    <mat-radio-button value="U">Unisex</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- <div class="card"> -->
+                    <div class="centrador">
+                      <a href="javascript:void(0)">
+                        <img  class="imagen" [src]="imagePath" />
+                      </a>
+                    </div>
+                    <a href="javascript:void(0)" title="Selecionar imagen" data-toggle="modal"
+                      data-target="#modalSocial" class="btn btn-warning btn-round">
+                      <i class="material-icons">add_photo_alternate</i>
+                    </a>
+
+                  <!-- </div> -->
+                </div>
+                <div class="col-md-6">
+                  <h3>Medidas</h3>
+                  <div class="example-button-row">
+                    <a data-toggle="modal" (click)="frame.show()" data-target="#MedidasModal" href="#"
+                      title="Agregar medidas" color="primary">
+                      <button mat-fab>
+                        <i class="material-icons">post_add</i>
+                      </button>
+                    </a>
+                  </div>
+                  <mat-list *ngFor="let medida of medidas">
+                    <a href="javascript:void(0)" [matTooltip]="medida.descripcion"
+                      aria-label="Button that displays a tooltip with a custom message" class="btn btn-sm btn-success ">
+                      {{medida.nombre}}
+                    </a>
+                    <a href="javascript:void(0)" (click)="eliminarrMeidas(medida)" title="Eliminar medida"
+                      class="btn btn-sm btn-danger pull-right btn-round">
+                      <i class="material-icons">delete</i>
+                    </a>
+
+                    <mat-divider></mat-divider>
+                  </mat-list>
+
+                </div>
+              </div>
+              <button mat-raised-button type="button" (click)="limpiar()"
+                class="btn btn-warning pull-right">Limpiar</button>
+              <button mat-raised-button type="submit" (click)="submit()"
+                class="btn btn-success pull-right">Agregar</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- modal Medidas -->
+      <div mdbModal #frame="mdbModal" class="modal fade top" id="MedidasModal" (opened)="onOpened(frame)" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">REGISTRE NUEVA MEDIDA</h5>
+              <button class="close" type="button" (click)="frame.hide()" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <form>
+              <div class="modal-body">
+                <div class="row">
+                  <div class=" col-2 col-md-2 col-sm-2 col-xl-2">
+                    <i class="material-icons">text_rotation_none</i>
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Ind" id="nombreMedida" required name="nombreMedida" maxlength="4"
+                        [(ngModel)]="medida.nombre" (input)="medida.nombre=medida.nombre.toUpperCase()" type="text">
+                    </mat-form-field>
+                  </div>
+                  <div class=" col-10 col-md-10 col-sm-10 col-xl-10">
+                    <i class="material-icons">subject</i>
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Descripcion" type="text" name="descripcionMedida"
+                        [(ngModel)]="medida.descripcion">
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div *ngIf="!medidasValid" class="col-sm-12 animated lightSpeedIn">
+                  <i class="material-icons" data-notify="icon">add_alert</i>
+                  <div class="alert alert-danger" role="alert">
+                    Ingrese el identificado de la Talla
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-secondary" (click)="frame.hide()" type="button"
+                  data-dismiss="modal">Cancelar</button>
+                <button type="submit" (click)="agregarMeidas()" class="btn btn-success">Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+      <!--Modal: modalSocial-->
+      <div class="modal fade" id="modalSocial" tabindex="-1" role="dialog" aria-labelledby="modalSocialTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenteredScrollableTitle">Selecione Imagnen</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+
+                <div class="col-3 col-lg-3 col-md-3 col-sm-3" *ngFor="let img of imagenes">
+                  <a href="javascript:void(0)" (click)="agregarImagen(img.path)">
+                    <div class="card">
+                      <div class=" card-header">
+                        <div class="">
+                          <img [src]="img.path" />
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">PIEZAS</h4>
+            <!-- <p class="card-category">Complete your profile</p> -->
+          </div>
+          <div class="card-body">
+            <div class="card">
+
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        IMG
+                      </th>
+                      <th>
+                        NOMBRE
+                      </th>
+                      <th>
+                        SEXO
+                      </th>
+                      <th>
+                        ACCIONES
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let piez of piezas">
+                        <td>
+                          <img [src]="piez.imagen" class="rounded" alt="...">
+                        </td>
+                        <td>
+                          {{piez.nombre}}
+                        </td>
+                        <td>
+                          {{piez.sexo}}
+                        </td>
+                        <td>
+                          <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                            <button type="button" class="btn btn-sm btn-warning" (click)="mostrarPieza(piez)"><i
+                                class="fa fa-edit"></i></button>
+                            <button type="button" (click)="selectedPieza(piez)" class="btn btn-sm btn-danger"
+                              data-toggle="modal" data-target="#ModalEliminarPieza">
+                              <i class="material-icons">delete</i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <!-- </div>
+</div> -->
+<div class="modal fade" id="ModalEliminarPieza" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">ELIMINAR PIEZA</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea eliminar esta Pieza {{piezaSelect.nombre}} ?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="eliminar()" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

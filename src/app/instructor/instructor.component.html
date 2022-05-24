@@ -1,0 +1,177 @@
+<!-- <div class="main-content"> -->
+<div class="main-content">
+    <form #Loginform="ngForm">
+
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="card card-profile">
+                    <div class="col-md-12">
+                        <div class="card-avatar">
+                            <a href="javascript:void(0)">
+                                <img class="img" src="{{url}}" />
+                            </a>
+                        </div>
+                    </div>
+                    <!-- <h4 class="card-description">{{instructor.estado}}</h4> -->
+                    <div class="card-body">
+                        <input style="display: none" type="button" type="file" (change)="onFileSelected($event)" #fileInput>
+                        <label style="font-size: 10px;">Foto medio Cuerpo (Con Uniforme de gala si es Guias Mayor) {{id}}
+                        <a href="https://compressnow.com/es/" target="_blank"> para bajar tamaño a tu imagen oprime quí!</a>
+                    </label>
+
+                        <button *ngIf="url=='../assets/img/faces/logo.png'?true:false" (click)="fileInput.click()" accept="image/*" type="button" class="btn btn-primary btn-round fileinput-exists"><i class="material-icons">add</i>Seleccionar</button>
+                        <div class="btn-group  btn-group-md col-12" role="group" *ngIf="!solicitud_enviada || instructor.estado_foto=='RECHAZADA' || instructor.estado_foto=='ENVIADA'">
+                            <button type="button" (click)="fileInput.click()" *ngIf="url!='../assets/img/faces/logo.png'?true:false" class="btn btn-warning btn-round btn-sm"><i class="material-icons">change_circle</i>Cambiar</button>
+                            <button type="button" (click)="cancelFile()" *ngIf="url!='../assets/img/faces/logo.png'?true:false" class="btn btn-danger btn-round btn-sm"><i class="material-icons">delete</i>Quitar</button>
+                        </div>
+
+                        <div class="col-12">
+                            <!-- <label class="card-title">Firma </label> <label style="color:red">*</label> -->
+                            <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail">
+                                    <img class="img" src="{{urlfirma}}" style="width:170px;height:140px;" />
+                                </div>
+                                <input style="display: none" type="button" type="file" (change)="onFileSelectedFirma($event)" #fileInputfirma>
+                                <button *ngIf="urlfirma=='../assets/img/firma2.png'?true:false" (click)="fileInputfirma.click()" accept="image/*" type="button" class="btn btn-primary btn-round fileinput-exists col-sm-12"><i class="material-icons">add</i>Firma</button>
+                                <label style="font-size: 10px;">Recuerde que la firma tiene que ser en formato PNG con fondo transparanete</label>
+                                <div class="btn-group btn-group-md col-12" role="group" *ngIf="!solicitud_enviada || instructor.estado_firma=='RECHAZADA' || instructor.estado_firma=='ENVIADA'">
+                                    <button type="button" (click)="fileInputfirma.click()" *ngIf="urlfirma!='../assets/img/firma2.png'?true:false" class="btn btn-warning btn-round btn-sm"><i class="material-icons">change_circle</i>Cambiar</button>
+                                    <button type="button" (click)="cancelFileFirma()" *ngIf="urlfirma!='../assets/img/firma2.png'?true:false" class="btn btn-danger btn-round btn-sm"><i class="material-icons">delete</i>Quitar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="card-title">{{usuario.nombre}} {{usuario.apellidos}}</h4>
+
+                        <div *ngIf="solicitud_enviada">
+                            <div class="col-12 card-title">
+                                <div class="row">
+                                    <i class="col-1 material-icons">phone</i>
+                                    <h4 class=" col-11">{{usuario.telefono}}</h4>
+                                </div>
+                            </div>
+                            <h6 class="card-title"> Perfil del usuario:</h6>
+                            <p class="card-description">{{usuario.perfil}} </p>
+                            <h6 class="card-title"> PERFIL DEL INSTRUCTOR:</h6>
+                            <p class="card-description">{{instructor.perfil}}</p>
+                        </div>
+                        <div class="row" *ngIf="!solicitud_enviada || instructor.estado=='PENDIENTE'">
+
+                            <div class=" col-12 ">
+                                <div class="col-12 ">
+                                    <label class="card-title ">PERFIL DEL INSTRUCTOR:</label> <label style="color:red ">*</label>
+                                    <div class="form-group ">
+                                        <textarea class="form-control " [(ngModel)]="instructor.perfil " required name="perfil " placeholder="Breve resumen de las o la especialidad " rows="4 "></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12 ">
+                                    <div class="row ">
+                                        <i class="col-1 material-icons " style="top: 10px; ">phone</i>
+                                        <mat-form-field class="example-full-width col-11 ">
+                                            <input matInput [(ngModel)]="usuario.telefono " type="number " name="telefono " placeholder="Celular " required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-description">{{instructor.estado}}</p>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 ">
+                <div class="col-md-12 ">
+                    <!-- style="background: #cab2b212; " -->
+                    <div class="card ">
+                        <form novalidate=" " class="form-horizontal ng-untouched ng-pristine ng-invalid ">
+                            <div class="card-header card-header-danger card-header-text ">
+                                <div class="card-text ">
+                                    <h4 class="card-title ">ESPECIALIDADES SOLICITADAS</h4>
+                                </div>
+                            </div>
+                            <div class="card-body ">
+                                <div data-notify="container" *ngIf="instructor.observaciones" class="alert alert-warning alert-with-icon">
+                                    <i data-notify="icon" class="material-icons">notifications</i>
+                                    <button mat-button="" type="button" data-dismiss="alert" aria-label="Close" class="close mat-button mat-button-base">
+                                      <span class="mat-button-wrapper">
+                                          <i class="material-icons">close</i></span>
+                                          <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                          <div class="mat-button-focus-overlay"></div>
+                                    </button>
+                                    <span data-notify="message">{{instructor.observaciones}}</span>
+                                </div>
+                                <div class="row ">
+                                    <div class=" col-md-12 ">
+                                        <label>¿Que especialidad deseas Dictar? (máximo {{max_especialidades_defect}} )*</label>
+                                    </div>
+                                    <div class="input-group btn-group-sm ">
+
+                                        <div class="input-group-prepend col-1 ">
+                                            <button type="button " class="btn btn-success btn-round " title="Agregar Especialidad ">
+                                                    <span class="mat-button-wrapper ">
+                                                        <i class="material-icons ">list</i> </span></button>
+                                        </div>
+                                        <mat-select placeholder="Especialidades Disponibles " class="col-9 " style="width:130px;padding-top: 10px;text-align: center; " [(ngModel)]="especialidad " name="especilidad ">
+                                            <mat-option *ngFor="let es of especialidades " [value]="es">
+                                                <img src="{{es.parche}} " alt="... " style="width:20px;height:20px; ">{{es.nombre}} </mat-option>
+                                        </mat-select>
+                                        <div class="input-group-append col-1 ">
+                                            <button type="button " (click)="agregarEspecialidadSolicitud() " *ngIf="especialidad.id?true:false " class="btn btn-success btn-round "><i class="material-icons ">add_box</i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row ">
+                                    <div class="col-md-6 ml-auto mr-auto " *ngFor="let espec_soli of especialidadesSolicitadas ">
+                                        <div class="card card-pricing card-raised ml-auto mr-auto ">
+                                            <div class="card-body ml-auto mr-auto ">
+                                                <h6 class="card-title ml-auto mr-auto ">{{espec_soli.nombre}}</h6>
+                                                <div class="card-icon icon-rose ml-auto mr-auto ">
+                                                    <!-- <i class="material-icons "> -->
+                                                    <img class="img ml-auto mr-auto " src="{{espec_soli.parche}} " style="width:130px;height:130px; " />
+                                                    <!-- </i> -->
+                                                </div>
+                                                <!-- <h3 class="card-title ">$29</h3> -->
+
+                                                <div class="btn-group btn-group-md col-md-12 ml-auto mr-auto " role="group ">
+                                                    <button type="button " [ngClass]="{ 'btn-danger':espec_soli.estado=='RECHAZADA','btn-warning':espec_soli.estado=='ENVIADA' } " class="btn btn-success btn-round btn-sm "><i class="material-icons ">check</i>{{espec_soli.estado}}</button>
+                                                    <button type="button " title="Eliminar de la lista" *ngIf="(espec_soli.estado=='ENVIADA' && espec_soli.temporal) || espec_soli.estado=='RECHAZADA' " class="btn btn-danger btn-round btn-sm " (click)="eliminarEspecialidadSolicitada(espec_soli)">
+                                                        <i class="material-icons ">not_interested</i>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="contenedor " *ngIf="!solicitud_enviada">
+                <div class=" botonF1 btn-group btn-group-lg " role="group " aria-label="... ">
+
+                    <button type="button" (click)="submit()" title="SOLICITAR SER INSTRUCTOR " class=" animated bounceInDown btn btn-round btn-fab btn-primary ">
+                <i class="material-icons ">save</i> 
+                </button>
+                </div>
+            </div>
+            <div class="contenedor " *ngIf="solicitud_enviada">
+                <div class=" botonF1 btn-group btn-group-lg " role="group " aria-label="... ">
+                    <button type="button " title="ENVIAR NUEVA SOLICITUD " class="animated bounceInDown btn btn-round btn-fab btn-primary " (click)="enviarSolicitudFirma()">
+                        <i class="material-icons ">send</i>
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+</div>

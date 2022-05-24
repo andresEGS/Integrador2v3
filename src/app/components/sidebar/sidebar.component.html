@@ -1,0 +1,161 @@
+<!-- <div class="modal fade" id="CambioRolModal" tabindex="-1" role="dialog" aria-labelledby="CambioRolModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CambioRolModal">Preparado para Cambiarde Rol?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+            </div>
+            <div class="modal-body">Esta seguro que desea cambiar a Rol {{rolselect.nombre}}</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button data-dismiss="modal" (click)="changeRolSession()" class="btn btn-primary">Cambiar de Rol</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="logo user">
+    <a href="" class="simple-text">
+
+        <div>
+            <img *ngIf="!isMobileMenu()" src="/assets/img/logo.png" class="photo" />
+            <img *ngIf="isMobileMenu()" src="{{usuario.foto}}" class="photo" />
+        </div>
+        {{usuario.nombre}}
+    </a>
+    <div class="btn-group  btn-group-md col-12" role="group">
+        <button type="button" class="btn btn-success btn-round btn-sm col-1"><i class="material-icons">how_to_reg</i></button>
+        <button type="button" class="btn btn-success btn-round btn-sm">{{rol.nombre}}</button>
+        <button type="button" *ngIf="roles.length>0" class="btn btn-warning btn-round btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        </button>
+        <div *ngIf="roles.length>0" class="dropdown-menu">
+            <a class="dropdown-item" *ngFor="let rol of roles" data-toggle="modal" (click)="changeRol(rol);" data-target="#CambioRolModal" href="javascript:void(0)">{{rol.nombre}}</a>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+
+        <div class="input-group-prepend col-4">
+            <div class="btn-group btn-group-sm ">
+                <button type="button" class="btn btn-success btn-round mat-button-base mat-raised-button">
+                        <span class="mat-button-wrapper">
+                            <i class="material-icons">how_to_reg</i> </span> </button>
+                <button type="button" class="btn btn-success mat-button-base mat-raised-button">{{rol.nombre}}</button>
+                <button type="button" class="btn btn-outline-success mat-button-base mat-raised-button dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>                           
+                            </button>
+
+            </div>
+        </div>
+    </div> -->
+</div>
+<div class="sidebar-wrapper">
+
+    <ul class="nav">
+        <!-- <li class="nav-item" *ngIf="isMobileMenu()">
+            <a class="nav-link">
+                <a data-toggle="collapse" href="#menu2" aria-expanded="true" style="padding-left: 0px;
+                margin-left: 0px;">
+                    <i class="material-icons">notifications</i> Notificaicnoes
+                </a>
+                <div id="menu2" class="collapse animated slideInRight ">
+                    <ul class="nav">
+                        <li routerLinkActive="active" class="nav-item">
+                            <a class="nav-link" *ngFor="let notif of notificaciones">
+                               <i class="material-icons"> <img  src="{{notif.foto_remite}}" alt="..." style="width:30px;height:30px;border-radius: 50%;"/></i>
+                                <p>{{notif.msg}}
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </a>
+        </li> -->
+        <!-- <li class="nav-item dropdown" *ngIf="isMobileMenu()">
+            <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="material-icons">notifications</i>
+                <span class="notificaciones_menu">{{cant_notificaciones}}</span>
+                <p>
+                    <span class="d-lg-none d-md-block">Notificaciones</span>
+                </p>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item">
+                    <i class="material-icons"> </i> yooooooo
+                </a>
+            </div>
+        </li> -->
+        <!-- <li>
+            <a class="nav-link"> -->
+
+        <!-- <div class="flag"> -->
+        <!-- <img alt="" src="./assets/img/triangulo_26X27.png"> -->
+        <!-- </div> -->
+        <!-- <i class="material-icons"><img alt="" src="./assets/img/triangulo_26X27.png"></i> -->
+        <!-- <p>{{usuario.nombre}}</p> -->
+
+        <!-- 
+            </a>
+        </li> -->
+        <!-- <li>
+
+            <a class="nav-link">
+                <a data-toggle="collapse" href="#nuevo" aria-expanded="true" style="padding-left: 0px;
+                margin-left: 0px;">
+                    <i class="material-icons">closed</i> MENU
+                </a>
+                <div id="nuevo" class="collapse">
+                    <ul class="nav">
+                        <li class="nav-item nav-item active  animated slideInRight ">
+                            <a class="nav-link" [routerLink]='"usuarios"' href="usuarios">
+                                <i class="material-icons">new</i>
+                                <p>Nuevo</p>
+                            </a>
+                        </li>
+                    </ul> <img alt="" src="./assets/img/triangulo_26X27.png">
+                </div>
+            </a>
+        </li> -->
+        <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+            <a class="nav-link" *ngIf="menuItem.tipo==='padre'">
+                <a data-toggle="collapse" href="#menu{{menuItem.id}}" aria-expanded="true" style="padding-left: 0px;
+                margin-left: 0px;">
+                    <i class="material-icons">{{menuItem.icon}}</i> {{menuItem.title}}
+                </a>
+                <div id="menu{{menuItem.id}}" class="collapse animated slideInRight ">
+                    <ul class="nav">
+                        <li routerLinkActive="active" class="nav-item" *ngFor="let menuSubItem of menuItem.menu">
+                            <a class="nav-link" [routerLink]="[menuSubItem.path]">
+                                <i class="material-icons" *ngIf="menuSubItem.class!='imagen'">{{menuSubItem.icon}}</i>
+                                <i class="material-icons" *ngIf="menuSubItem.class==='imagen'">
+                                    <img alt="" src="./assets/img/{{menuSubItem.icon}}"> 
+                                </i>
+                                <p>{{menuSubItem.title}}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </a>
+        </li>
+        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem.path]" *ngIf="menuItem.tipo==='menu'">
+                <i class="material-icons" *ngIf="menuItem.class==='imagen'">
+                    <img alt="" src="./assets/img/{{menuItem.icon}}"> 
+                </i>
+                <i class="material-icons" *ngIf="menuItem.class!='imagen'">{{menuItem.icon}}</i>
+                <!-- <i class="material-icons">{{menuItem.icon}}</i> -->
+                <p>{{menuItem.title}}</p>
+            </a>
+        </li>
+        
+
+
+        <li>
+            <a data-toggle="modal" data-target="#logoutModal" class="nav-link" href="#">
+                <i class="material-icons">exit_to_app</i>
+                <p>Cerrar Sesión </p>
+            </a>
+        </li>
+    </ul>
+</div>

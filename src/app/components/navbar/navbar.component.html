@@ -1,0 +1,100 @@
+<!-- <nav class="navbar navbar-expand-lg fixed-top navbar-transparent   ">
+    <div class="container-fluid">
+        <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+
+    </div>
+</nav> -->
+<!-- style="position: fixed;" -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-absolute  fixed-top " >
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <!-- {{getTitle()}} -->
+        </div>
+        <div *ngIf="isMobileMenu()" class="btn-group  btn-group-md col-4" role="group">
+            <button type="button" class="btn btn-info btn-round btn-sm col-1"><i class="material-icons">notifications</i></button>
+            <button type="button" class="btn btn-info btn-round btn-sm">{{notificaciones.length}}</button>
+            <button type="button" *ngIf="notificaciones.length>0" class="btn btn-warning btn-round btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div *ngIf="notificaciones.length>0" class="dropdown-menu" style="left: -150px;">
+                <a class="dropdown-item" *ngFor="let notif of notificaciones" [routerLink]="notif.url" [queryParams]="{id: notif.id_url}" (click)="cambiarestadoNotificacion(notif)">
+                    <i class="material-icons"> <img  src="{{notif.foto_remite}}" alt="..." style="width:30px;height:30px;border-radius: 50%;"/></i> {{notif.msg}}
+                </a>
+                <!-- <a class="dropdown-item" *ngFor="let notif of notificaciones" data-toggle="modal" data-target="#CambioRolModal" href="javascript:void(0)">{{notif.msg}}</a> -->
+            </div>
+        </div>
+        <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end " id="navigation">
+            <!-- <form class="navbar-form">
+                <div class="input-group no-border">
+                    <input type="text" value="" class="form-control" placeholder="Search...">
+                    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+                        <i class="material-icons">search</i>
+                        <div class="ripple-container"></div>
+                    </button>
+                </div>
+            </form> -->
+            <ul class="navbar-nav navbar-fixed-top">
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <i class="material-icons">dashboard</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Stats</span>
+                        </p>
+                    </a>
+                </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">notifications</i>
+                        <span *ngIf="notificaciones.length>0" class="notification">{{notificaciones.length}}</span>
+                        <p>
+                            <span class="d-lg-none d-md-block">Some Actions</span>
+                        </p>
+                    </a>
+                    <div *ngIf="notificaciones.length>0" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" *ngFor="let notif of notificaciones" [routerLink]="notif.url" [queryParams]="{id: notif.id_url}" (click)="cambiarestadoNotificacion(notif)">
+                            <i class="material-icons"> <img  src="{{notif.foto_remite}}" alt="..." style="width:30px;height:30px;border-radius: 50%;"/></i> {{notif.msg}}
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item  dropdown">
+                    <a class="nav-link" href="javascript:void(0)" id="navbarDropdownPerfilLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons"> 
+                            <img  src="{{usuario.foto}}"  *ngIf="usuario.foto" alt="..." style="width:30px;height:30px;border-radius: 50%;"/>
+                        <img src="../assets/img/faces/logo.png" *ngIf="!usuario.foto" alt="..." style="width:30px;height:30px;border-radius: 50%;" />
+                        </i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Account</span>
+                        </p>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPerfilLink">
+                        <a class="dropdown-item" [routerLink]="'/user-profile'">
+                            <i class="material-icons">person</i>Mi Perfil
+                        </a>
+
+                        <a data-toggle="modal" data-target="#logoutModal" class="dropdown-item" href="#">
+                            <i class="material-icons">exit_to_app</i> Cerrar sesión
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- 
+<button class="botonF1 animated bounceInDown" mat-raised-button type="button" class="navbar-toggler" (click)="sidebarToggle()">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="navbar-toggler-icon icon-bar"></span>
+        <span class="navbar-toggler-icon icon-bar"></span>
+        <span class="navbar-toggler-icon icon-bar"></span>
+    </button> -->

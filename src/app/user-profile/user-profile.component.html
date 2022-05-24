@@ -1,0 +1,105 @@
+<div class="main-content">
+    <form #Loginform="ngForm" (submit)="submit()">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a href="javascript:void(0)">
+                            <img class="img" src="{{url}}" />
+                        </a>
+
+                    </div>
+
+                    <div class="card-body">
+                        <input style="display: none" type="button" type="file" (change)="onFileSelected($event)" #fileInput>
+                        <button *ngIf="url=='../assets/img/faces/logo.png'?true:false" (click)="fileInput.click()" accept="image/*" type="button" class="btn btn-primary btn-round fileinput-exists"><i class="material-icons">add</i>Seleccionar</button>
+                        <div class="btn-group btn-group-md" role="group">
+                            <button type="button" (click)="fileInput.click()" *ngIf="url!='../assets/img/faces/logo.png'?true:false" class="btn btn-warning btn-round btn-sm"><i class="material-icons">change_circle</i>Cambiar</button>
+                            <button type="button" (click)="cancelFile()" *ngIf="url!='../assets/img/faces/logo.png'?true:false" class="btn btn-danger btn-round btn-sm"><i class="material-icons">delete</i>Quitar</button>
+                        </div>
+
+                        <h6 class="card-category text-gray">{{usuario.login}}</h6>
+                        <h4 class="card-title">{{usuario.nombre}} {{usuario.apellidos}}</h4>
+                        <p class="card-description">{{usuario.perfil}} </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Editar Perfil</h4>
+                        <!-- <p class="card-category">Complete your profile</p> -->
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="identificacion" name="identificacion" placeholder="Identificacion" type="number" required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="usuario.direccion" name="direccion" (input)="usuario.direccion=usuario.direccion.toUpperCase()"  placeholder="direccion" type="text" required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="usuario.nombre" name="nombre" placeholder="Nombre del usuario" type="text" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="usuario.apellidos" name="apelidos" placeholder="Apellidos" type="text" required>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <!-- <div class="col-sm-12">
+                                <label>Mi perfil</label>
+                                <div class="form-group">
+                                    <textarea class="form-control" [(ngModel)]="usuario.perfil" name="perfil" placeholder="Describe tus mejores caracteristicas" rows="2"></textarea>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="email" (input)="email=email.toUpperCase()" name="email" placeholder="Correo Eléctronico" type="text" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="usuario.telefono" type="text" name="telefono" placeholder="Celular" required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="login" (input)="login=login.toUpperCase()" name="login" placeholder="Usuario" type="text" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput [(ngModel)]="usuario.password" type="password" name="password" placeholder="Password" required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="btn-group btn-group-md" role="group" aria-label="...">
+                            <button mat-raised-button="" type="submit" class="btn btn-primary">
+                    <i class="material-icons">save</i>ACTUALIZAR DATOS
+                  </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

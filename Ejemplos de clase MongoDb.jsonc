@@ -1,0 +1,27 @@
+[
+    {
+        "nombre": "Juan Jose",
+        "apellido":"Puello",
+        "fecha_creacion": new Date(),
+        "fecaha_creacon" Date()
+
+    }
+    {
+        "nombre": "Luis Eduaro",
+        "apellido":"Martinez",
+        "fecha_creacion": new Date(),
+        "telefono": 33135406136
+
+    }
+    {
+        "nombre": "Pedro Alfonzo",
+        "apellido":"Herrera",
+        "Direccion":{
+            "barrio":"Calamares",
+            "nomenclatura":"Cll7 Crr4"
+        },
+        "fecha_creacion": new Date(),
+        "telefono": 54423123
+
+    }
+]

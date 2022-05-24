@@ -1,0 +1,116 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2  animated fadeIn">
+                <div class="card card-profile">
+
+                    <div class="card-header  card-header-icon ">
+                        <div class="card-icon">
+                            <h4>Filtros</h4>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-2">
+                            <label class="example-margin">Grupo:</label><br />
+                            <mat-radio-group [(ngModel)]="tipo"  (change)="buscarFiltro(false)">
+                                <div *ngFor="let t of tipos">
+                                    <mat-radio-button value="{{t}}"> {{t}} </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+                        </div>
+                        
+                        <div class="col-sm-12">
+                            <label class="example-margin">Precio > ${{valor_busqueda}}</label><br />
+                            <!-- <mat-slider max="100000" min="5000"  vertical="true" [(ngModel)]="valor_busqueda"></mat-slider> -->
+                            <div class="mdc-slider">                               
+                                <input class="mdc-slider__input" type="range" min="5000"   [(ngModel)]="valor_busqueda" max="100000"  name="volume"  step="1000" aria-label="Continuous slider demo">
+                                <div class="mdc-slider__track">
+                                  <div class="mdc-slider__track--inactive"></div>
+                                  <div class="mdc-slider__track--active">
+                                    <div class="mdc-slider__track--active_fill"></div>
+                                  </div>
+                                </div>
+                                <div class="mdc-slider__thumb">
+                                  <div class="mdc-slider__thumb-knob"></div>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <button type="button" matTooltip="Buscar" (click)="buscarFiltro(false)" class="btn btn-success btn-round btn-sm"><i class="material-icons">search</i></button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 animated fadeIn">
+                <div class="row ">                    
+                    <div *ngFor="let articulo of articulos"  class="col-lg-4 col-md-6 col-sm-4 animated fadeIn" >
+                        <div class="card card-stats">
+                            <!--  -->
+                            <div class="card-header" >
+                                
+                            <h4 class="card-title">{{articulo.nombre}}</h4>
+                            <p class="card-category">{{articulo.descripcion}}</p>
+        
+        
+        
+                            </div>
+                            <div class="row card-content">
+                            <div class="col-md-6">
+                                <div class="card-icon card-header-icon ">
+                                    <img src="{{articulo.imagen}} " alt="..." style="width:100px;height:100px;">
+                                </div> 
+                            </div>   
+                            <div class="col-md-6">
+                                <p class="card-category"><i class="material-icons">currency_exchange</i> $ {{articulo.precio}}</p>
+                                <p *ngIf="articulo.estado!='ACTIVO'" class="card-category"><i class="material-icons">production_quantity_limits</i> AGOTADO</p>
+                                <p *ngIf="articulo.estado=='ACTIVO'" class="card-category"><i class="material-icons">view_in_ar</i> {{articulo.cantidad}}</p>
+                            </div>  
+                        </div>
+                            <div class="card-footer">
+                               
+                                <div class="btn-group btn-group-md " role="group" [ngClass]="{'col-md-8': articulo.estado=='ACTIVO','col-md-12': articulo.estado!='ACTIVO'}">
+                                    <button type="button" class="btn  btn-round btn-sm" (click)="selected(articulo)" data-toggle="modal" data-target="#InstructorModal"><i class="material-icons">search</i>Articulo</button>
+                                    
+                                </div>
+                                <!-- -->
+                                <div  class="btn-group btn-group-md col-md-4 ml-auto mr-auto" role="group" *ngIf="articulo.estado=='ACTIVO'">
+                                    <a  target="_blank">
+                                        <button type="button" matTooltip="Agregar al carrito" (click)="agregarProducto(articulo)" class="btn btn-success btn-round btn-sm"><i class="material-icons">add_shopping_cart</i> </button>
+                                    </a>
+                                </div>
+                                <!--  -->
+        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+                
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="InstructorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="row">
+            <div class="card card-profile">
+                <div class="card-avatar">
+                    <a href="javascript:void(0)">
+                        <img class="img" src="{{articulo.imagen}}" />
+                    </a>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-category text-gray">nombre</h6>
+                    <h4 class="card-title">{{articulo.descripcion}}</h4>
+                    <p class="card-description">{{articulo.ingredientes}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

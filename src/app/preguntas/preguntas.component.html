@@ -1,0 +1,543 @@
+<div class="main-content">
+
+    <div class="container-fluid">
+        <div class="row" *ngIf="!registrar">
+            <div class="col-md-12 ml-auto mr-auto animated fadeIn">
+
+                <div class="card card-profile">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">REGISTAR PREGUNTA
+
+                        </h4>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="input-group btn-group-sm col-md-12">
+                            <div class="input-group-prepend">
+
+                                <button type="button" class="btn btn-outline-secondary">{{findParam}}</button>
+                                <button type="button"
+                                    class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="javascript:void(0)"
+                                        (click)="changeParam('NOMBRE');buscarFiltro(true)">NOMBRE</a>
+                                    <!-- <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('APELLIDO');buscarFiltro(true)">APELLIDO</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="changeParam('IDENTIFICACION');buscarFiltro(true)">IDENTIFICACION</a> -->
+                                </div>
+                            </div>
+                            <input [(ngModel)]="findValue" type="text" class="form-control" style="left: 10px;"
+                                name="findCliente" (input)="findValue=findValue.toUpperCase()"
+                                (input)="buscarFiltro(true)" placeholder="Buscar..."
+                                aria-label="Text input with segmented dropdown button">
+                            <button type="button"
+                                class="btn btn-primary btn btn-primary btn-round btn-fab mat-raised-button mat-button-base"
+                                (click)="buscarFiltro(false)"><i class="material-icons">search</i> </button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let tema of temas" class="col-lg-4 col-xl-3 col-md-6 col-sm-4 animated fadeIn">
+
+                <div class="card card-product" data-count="1">
+
+                    <div data-header-animation="true" *ngIf="tema.imagen" class="card-header card-header-image">
+                        <a href="#"><img style="height:180px" src="{{tema.imagen}}" class="img"></a>
+                    </div>
+                    <div data-header-animation="true" *ngIf="!tema.imagen || tema.imagen === ''"
+                        class="card-header card-header-image">
+                        <a href="#"><img src="./assets/img/sidebar-1.jpg" style="height:180px" class="img"></a>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="card-actions text-center">
+
+                            <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                                <mat-button-toggle matTooltip="Agregar pregunta" (click)="seletTema(tema)">
+                                    <mat-icon>library_add</mat-icon>
+                                </mat-button-toggle>
+                                <mat-button-toggle matTooltip="Ver preguntas" (click)="mostrarPreguntas(tema)"
+                                    data-toggle="modal" data-target="#modalVisorPreguntas">
+                                    <mat-icon>zoom_in</mat-icon>
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+
+
+                        </div>
+                        <h4 class="card-title">{{tema.nombre}}</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="price">
+                            <p class="card-category"><i class="material-icons">rules</i>
+                                {{tema.cont_preguntas?tema.cont_preguntas:0}} preguntas</p> 
+                        </div>
+                        <div class="stats">
+                            <p class="card-category"><i class="material-icons">offline_bolt</i> {{tema.puntos}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-8 ml-auto mr-auto animated fadeIn" *ngIf="registrar">
+            <form #Loginform="ngForm" (submit)="submit()">
+                <div class="card">
+
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">REGISTAR PREGUNTA
+
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="card-title">{{temaSelect.nombre}} <div class="stats">
+                                        <p class="card-category"><i class="material-icons">offline_bolt</i>
+                                            {{temaSelect.puntos}}</p>
+                                    </div>
+                                </h4>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+
+                    <div class="card " style="border-end-end-radius: 10px;">
+                        <div class="card-header card-header-rose card-header-icon">
+                            <div class="card-icon"><i class="material-icons">question_answer</i></div>
+                            <h4 class="card-title">Datos de la pregunta</h4>
+                        </div>
+                        <div class="card-body">
+
+                            <mat-form-field class="example-full-width">
+                                <input matInput #nombrePregunta [(ngModel)]="pregunta.nombre"
+                                    (input)="pregunta.nombre=pregunta.nombre.toUpperCase()" name="nombrePregunta"
+                                    placeholder="Pregunta" type="text" required>
+                            </mat-form-field>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    DIFICULTAD
+                                    <mat-button-toggle-group #dificultadPregunta name="dificultadPregunta"
+                                        [(value)]="pregunta.dificultad" aria-label="Font Style">
+                                        <mat-button-toggle value="FACIL" class="text-center"
+                                            [ngClass]="{'btn-success': pregunta.dificultad=='FACIL'}"> <img alt=""
+                                                src="./assets/img/facil.png" style="width:40px;height:40px;">
+                                        </mat-button-toggle>
+                                        <mat-button-toggle value="MEDIO"
+                                            [ngClass]="{'btn-warning': pregunta.dificultad=='MEDIO'}"><img alt=""
+                                                src="./assets/img/medio.png" style="width:40px;height:40px;">
+                                        </mat-button-toggle>
+                                        <mat-button-toggle value="DIFICIL"
+                                            [ngClass]="{'btn-danger': pregunta.dificultad=='DIFICIL'}"><img alt=""
+                                                src="./assets/img/dificil.png" style="width:40px;height:40px;">
+                                        </mat-button-toggle>
+                                    </mat-button-toggle-group>
+
+                                </div>
+                                <div class="col-lg-8 col-md-12">
+                                    <mat-slide-toggle [formControl]="fontStyleControl">IMAGEN</mat-slide-toggle>
+                                    <mat-form-field *ngIf="fontStyleControl.value" class="example-full-width">
+                                        <input matInput [(ngModel)]="pregunta.imagen" name="imagenpregunta"
+                                            placeholder="Url imagen" type="url">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <mat-form-field appearance="fill">
+                                    <mat-label> Selecione tipo de pregunta</mat-label>
+                                    <mat-select [(value)]="pregunta.tipo">
+                                        <mat-option value="select">Seleccione</mat-option>
+                                        <mat-option value="SEL">SELECION MULTIPLE</mat-option>
+                                        <mat-option value="UNI">UNICA RESPUESTA</mat-option>
+                                        <mat-option value="FOV">FALSO Ó VERDADERO</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-12  ml-auto mr-auto">
+                                <button (click)="agregarRespuesta(true)"
+                                    *ngIf="pregunta.tipo=='UNI' || pregunta.tipo=='SEL'" mat-raised-button=""
+                                    type="button" class="btn btn-fill btn-success mat-raised-button mat-button-base">
+                                    <div matripple="" class="mat-ripple mat-button-ripple">Respuesta</div>
+                                    <i class="material-icons">library_add</i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card " style="border-end-end-radius: 10px;">
+                        <div class="card-header  card-header-icon"
+                            [ngClass]="{'card-header-success': pregunta.dificultad=='FACIL','card-header-warning': pregunta.dificultad=='MEDIO','card-header-danger': pregunta.dificultad=='DIFICIL'}">
+                            <div class="card-icon"><i class="material-icons">grading</i></div>
+                            <h4 class="card-title">Respuestas {{pregunta.dificultad}}</h4>
+                        </div>
+                        <div class="card-body" *ngIf="pregunta.tipo=='UNI' || pregunta.tipo=='SEL'">
+                            <div class="row" *ngFor="let respueta of respuestas">
+                                <div class="col-md-1">
+                                    <h4 class="card-title">{{respueta.id}}</h4>
+                                </div>
+                                <div class="col-md-5">
+                                    <mat-form-field *ngIf="!respueta.isImagen" class="example-full-width">
+                                        <input matInput [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="respueta.nombre" placeholder="Respuesta" type="text" required>
+                                    </mat-form-field>
+                                    <mat-form-field *ngIf="respueta.isImagen" class="example-full-width">
+                                        <input matInput [ngModelOptions]="{standalone: true}"
+                                            [(ngModel)]="respueta.imagen" placeholder="Url imagen" type="url" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-slide-toggle [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="respueta.correcta">Correcta</mat-slide-toggle>
+                                    <mat-slide-toggle [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="respueta.isImagen">imagen</mat-slide-toggle>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" (click)="borrarRespuesta(respueta)"
+                                        class="btn btn-sm btn-danger">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" *ngIf="pregunta.tipo=='FOV'">
+                            <div class="row" *ngFor="let respuetad of respuestasFV">
+                                <div class="col-md-1">
+                                    <h4 class="card-title">{{respuetad.id}}</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <button mat-flat-button type="button"
+                                        [ngClass]="{'btn btn-danger': respuetad.nombre==='FALSO','btn btn-success':respuetad.nombre==='VERDADERO'}">{{respuetad.nombre}}</button>
+                                </div>
+                                <div class="col-md-5">
+                                    <mat-slide-toggle [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="respuetad.correcta">Correcta</mat-slide-toggle>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="card-body"></div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="btn-group "
+                                [ngClass]="{'btn-group-sm': isMobileMenu(),'btn-group-md': !isMobileMenu()}"
+                                role="group" aria-label="...">
+                                <button mat-raised-button="" type="submit" class="btn btn-primary">
+                                    <i class="material-icons">save</i>GUARDAR
+                                </button>
+                                <button mat-raised-button="" type="button" class="btn btn-warning " (click)="limpiar()">
+                                    <i class="material-icons">refresh</i>LIMPIAR
+                                </button>
+                                <button mat-raised-button="" type="button" class="btn btn-danger " data-toggle="modal"
+                                    data-target="#modalVisorPrevia">
+                                    <i class="material-icons">preview</i>VISTA PREVIA
+                                </button>
+
+                                <button mat-raised-button="" type="button" class="btn btn-success "
+                                    (click)="modoRegistro(false)">
+                                    <i class="material-icons">search</i>CONSULTAR
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalVisorPrevia" tabindex="-1" role="dialog" aria-labelledby="ariamodalVisorPrevia"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="row">
+
+            <div class="card card-profile modal-content">
+                <div class="card-header  card-header-icon card-header-danger">
+                    <div class="card-icon">
+                        <h4>PREGUNTA</h4>
+                    </div>
+
+                </div>
+                <div class="card-body ">
+
+                    <div class="col-md-12 ml-auto mr-auto">
+                        <div class="card ">
+                            <div class="card-body text-center ">
+                                <h5>{{pregunta.nombre}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header card-header-image">
+                        <a href="#"><img *ngIf="pregunta.imagen" src="{{pregunta.imagen}}" style="height:180px"
+                                class="img"></a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 ml-auto mr-auto">
+                            <div class="card-body text-center">
+                                <h6>RESPUESTAS:</h6>
+                            </div>
+                        </div>
+
+                    </div>           
+
+                    <div class="row">
+                        <div class="col-md-12 ml-auto mr-auto" *ngFor="let res of respuestas">
+                            <div *ngIf="!res.isImagen" class="card card-profile modal-content">
+                                <div class="card-header  card-header-icon card-header-danger">
+                                    <div class="card-icon">
+                                        {{res.letra}}
+                                    </div>
+                                </div>
+                                <div  matRipple>
+                                    <div class="card-body text-center">
+                                        <code>{{res.nombre}}</code>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 ml-auto mr-auto" *ngFor="let res of respuestas">
+                            <div  *ngIf="res.isImagen" class="card card-profile modal-content">
+                                <div class="card-header  card-header-icon card-header-danger">
+                                    <div class="card-icon">
+                                        {{res.letra}}
+                                    </div>
+                                </div>
+                                <div class="card" matRipple>
+                                    <img src="{{res.imagen}}" style="height:200px" class="img">
+                                </div>
+                            </div>
+
+                        </div>
+                       
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">offline_bolt</i>
+                        <h4>{{temaSelect.puntos}}</h4>
+                    </div>
+                    <div class="stats">
+                        <!-- <p class="card-category"><i class="material-icons">place</i> London, UK</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalVisorPreguntas" tabindex="-1" role="dialog" aria-labelledby="ariamodalVisorPreguintas"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="row">
+
+            <div class="card card-profile modal-content">
+                <div class="card-header  card-header-icon card-header-danger">
+                    <div class="card-icon">
+                        <h4>{{temaSelect.nombre}} </h4>
+                    </div>
+
+                </div>
+                <div class="card-body ">
+
+                    <img *ngIf="temaSelect.imagen" width="100%" height="250px" src="{{temaSelect.imagen}}" class="img">
+                    <div *ngIf="!temaSelect.imagen || temaSelect.imagen === ''" class="card-header card-header-image">
+                        <a href="#"><img src="./assets/img/sidebar-1.jpg" style="height:180px" class="img"></a>
+                    </div>
+
+
+                    <h4 class="card-title"><a>PREGUNTAS</a></h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="text-primary"></thead>
+                            <!-- <th colspan="5">
+                               
+                            </th> -->
+                            <thead class="text-primary">
+                                <!-- <th style="width: 10px;"></th> -->
+                                <th style="text-align: left;">
+                                    PREGUNTA
+                                </th>
+
+                                <th>
+                                    DIFICULTAD
+                                </th>
+
+                            </thead>
+
+
+                            <tbody>
+                                <!-- <tr >
+                                <td colspan="6">
+                                    </td>
+                                </tr> -->
+                                <tr *ngFor="let pre of preguntas">
+                                    <!-- <td style="width: 10px;"></td> -->
+                                    <td style="text-align: left;">
+                                        {{pre.nombre}}
+                                    </td>
+
+                                    <td>
+                                        <img alt="" *ngIf="pre.dificultad==='FACIL'" src="./assets/img/facil.png"
+                                            style="width:20px;height:20px;">
+                                        <img alt="" *ngIf="pre.dificultad==='MEDIO'" src="./assets/img/medio.png"
+                                            style="width:20px;height:20px;">
+                                        <img alt="" *ngIf="pre.dificultad==='DIFICIL'" src="./assets/img/dificil.png"
+                                            style="width:20px;height:20px;">
+                                    </td>
+
+
+
+
+
+                                    <td class="td-actions text-center">
+                                        <div class="btn-group mr-2 " role="group"
+                                            style="margin-bottom: 0px;margin-top: 0px;height: 25px;">
+                                            <button mat-raised-button="" type="button" data-toggle="modal"
+                                                data-target="#modalVisorPreguntas" (click)="mostrar(pre)"
+                                                class="mat-raised-button mat-button-base btn btn-warning">
+                                                <span class="mat-button-wrapper"><i
+                                                        class="material-icons">edit</i></span>
+                                                <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                <div class="mat-button-focus-overlay"></div>
+                                            </button>
+                                            <button mat-raised-button="" type="button" (click)="selected(pre)"
+                                                class="mat-raised-button mat-button-base btn btn-danger"
+                                                data-toggle="modal" data-target="#ModalEliminar">
+                                                <span class="mat-button-wrapper"><i
+                                                        class="material-icons">delete</i></span>
+                                                <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                                                <div class="mat-button-focus-overlay"></div>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                            <!-- <div class="btn-group btn-group-sm" *ngIf="paginador">
+                                <button mat-raised-button="" type="button" disabled="{{pagina === 0}}"
+                                    (click)="listarsiguiente(false)"
+                                    class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                    <span class="mat-button-wrapper"><i
+                                            class="material-icons">keyboard_arrow_left</i></span>
+                                </button>
+                                <button mat-raised-button="" type="button"
+                                    class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                    {{pagina+1}} </button>
+                                <button mat-raised-button=""
+                                    disabled="{{temas!=undefined?temas.length < pagesize:false}}"
+                                    (click)="listarsiguiente(true)" type="button"
+                                    class="btn btn-round btn-info mat-raised-button mat-button-base">
+                                    <span class="mat-button-wrapper"><i
+                                            class="material-icons">keyboard_arrow_right</i></span>
+                                </button>
+                            </div> -->
+                        </table>
+                        <div *ngIf="resultado" data-notify="container"
+                            class="alert alert-warning alert-with-icon animated fadeInRightBig">
+                            <i data-notify="icon" class="material-icons">notifications</i>
+
+                            <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                            <span data-notify="message">No se encontraron Resultados</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">offline_bolt</i>
+                        <h4>{{temaSelect.puntos}}</h4>
+                    </div>
+                    <div class="stats">
+                        <!-- <p class="card-category"><i class="material-icons">place</i> London, UK</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-md-4">
+        <div class="card card-product" data-count="1">
+            <div data-header-animation="true" class="card-header card-header-image"><a href="#pablo"><img
+                        src="./assets/img/sidebar-1.jpg" class="img"></a></div>
+            <div data-header-animation="true" class="card-header card-header-image"><a href="#pablo"><img
+                        src="https://mdbcdn.b-cdn.net/img/new/standard/city/053.jpg" class="img"></a></div>
+            <div data-header-animation="true" class="card-header card-header-image"><a href="#pablo">
+                    <p>
+                        <iframe width="95%" height="350px" style="position: relative;
+                            padding: 0;
+                            z-index: 1;
+                            margin-left: 15px;
+                            margin-right: 15px;
+                            margin-top: -30px;
+                            border-radius: 6px;"
+                            [src]="getVideoIframe('https://www.youtube.com/watch?v=MJ9cov1lk64&list=RDmC-zw0zCCtg&index=27')"
+                            class="img" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </p>
+                </a></div>
+            <div class="card-body">
+
+                <div class="card-actions text-center"><button mat-raised-button="" type="button"
+                        class="btn btn-danger btn-link fix-broken-card mat-raised-button mat-button-base"><span
+                            class="mat-button-wrapper"><i class="material-icons">build</i> Fix Header! </span>
+                        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button><button mat-raised-button="" type="button" mattooltip="View"
+                        class="btn btn-default btn-link mat-raised-button mat-button-base"
+                        aria-describedby="cdk-describedby-message-2" cdk-describedby-host=""><span
+                            class="mat-button-wrapper"><i class="material-icons">art_track</i></span>
+                        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button>
+                    <button mat-raised-button="" type="button" mattooltip="Edit"
+                        class="btn btn-success btn-link mat-raised-button mat-button-base"
+                        aria-describedby="cdk-describedby-message-3" cdk-describedby-host=""><span
+                            class="mat-button-wrapper"><i class="material-icons">edit</i></span>
+                        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button>
+                    <button mat-raised-button="" type="button" mattooltip="Remove"
+                        class="btn btn-danger btn-link mat-raised-button mat-button-base"
+                        aria-describedby="cdk-describedby-message-4" cdk-describedby-host=""><span
+                            class="mat-button-wrapper"><i class="material-icons">close</i></span>
+                        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button>
+                </div>
+                <h4 class="card-title"><a href="#pablo">Cozy 5 Stars Apartment</a></h4>
+                <div class="card-description"> The place is close to Barceloneta Beach and bus stop just 2 min by walk
+                    and near to "Naviglio" where you can enjoy the main night life in Barcelona. </div>
+            </div>
+            <div class="card-footer">
+                <div class="price">
+                    <h4>$899/night</h4>
+                </div>
+                <div class="stats">
+                    <p class="card-category"><i class="material-icons">place</i> Barcelona, Spain</p>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+
+</div> -->
